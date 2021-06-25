@@ -1,1 +1,49 @@
-nada
+/*Está consulta sería como tienen que estar las consultas en MYSQL. No sé si en la parte de JAVA tienes que poner también las comillas o no. 
+Para estas consultas no sé qué será más óptimo si calcular primero el número de sujetos o realizar el cálculo directamente. 
+
+Los comentarios que he puesto es para que sepas lo que hace cada consulta. Tengo que hablar con José Luis como se van a guardar las estadísticas en la tabla estadística (todavía no está creada) y que campos va a tener dicha tabla. 
+nombre de los juegos que mas han mencioando*/
+
+select j.nombrejuego, count(*) from `admin_juegos`.`alumnos_juegos` aj inner join `admin_juegos`.`juegos` j on aj.fkjuego = j.pkjuego
+where aj.fkusuario = 27 and aj.fkidioma = 1 
+and (aj.barrio = 1 or aj.colegio = 1) 
+group by j.nombrejuego 
+order by 2 desc;
+/*nombre de los juegos favoritos
+select j.nombrejuego, count(*) from alumnos_juegos aj inner join juegos j on aj.fkjuego = j.pkjuego
+where aj.fkusuario = 27 and aj.fkidioma = 1 and aj.fechaalta > to_date ('08/08/2020','DD/MM/YYYY') 
+and (aj.favorito = 1) 
+group by j.nombrejuego 
+order by 2 desc;
+/* numero de juegos por niño
+select a.nombrealumno, count(*)
+from alumnos a inner join alumnos_juegos aj on a.pkalumno = aj.fkalumno
+where aj.fkusuario = 27 and aj.fkidioma = 1 and aj.fechaalta > to_date ('08/08/2020','DD/MM/YYYY') 
+group by a.nombrealumno
+order by 2 desc;
+/*numero de juegos por genero
+select a.genero, count(*)
+from alumnos a inner join alumnos_juegos aj on a.pkalumno = aj.fkalumno
+where aj.fkusuario = 27 and aj.fkidioma = 1 and aj.fechaalta > to_date ('08/08/2020','DD/MM/YYYY') 
+group by a.genero
+order by 2 desc;
+/*Numero de niños y niñas para ese colegio
+select a.genero, count(*)
+from alumnos a 
+where a.fkusuario = 27 and a.fkidioma = 1 and a.fechaalta > to_date ('08/08/2020','DD/MM/YYYY') 
+group by a.genero
+order by 2 desc;*/
+SELECT aj.fkalumno/*,
+    `alumnos_juegos`.`fkcolegio`,
+    `alumnos_juegos`.`fkcurso`,
+    `alumnos_juegos`.`fkanho`,
+    `alumnos_juegos`.`fkjuego`,
+    `alumnos_juegos`.`favorito`,
+    `alumnos_juegos`.`barrio`,
+    `alumnos_juegos`.`colegio`,
+    `alumnos_juegos`.`fkusuario`,
+    `alumnos_juegos`.`fkidioma`,
+    `alumnos_juegos`.`fechaalta`,
+    `alumnos_juegos`.`fechabaja`,
+    `alumnos_juegos`.`fechamodificacion`*/
+FROM `admin_juegos`.`alumnos_juegos` aj ;
