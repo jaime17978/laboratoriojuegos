@@ -1,0 +1,46 @@
+/*
+-- Query: SELECT * FROM admin_juegos.perfiles_menus
+-- Date: 2021-07-08 18:49
+*/
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,1,'administrador_paises');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,2,'administrador_regiones');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,3,'administrador_anhos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,4,'administrador_universidades');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,5,'administrador_usuarios');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,6,'administrador_practicas');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,7,'administrador_colegios');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,8,'administrador_grupos_practicas');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,9,'administrador_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,10,'administrador_alumnos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,11,'administrador_alumnos_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (2,5,'profesores_usuarios');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (2,6,'profesores_practicas');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (2,7,'profesores_colegios');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (2,8,'profesores_grupos_practicas');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (2,9,'profesores_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (2,10,'profesores_alumnos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (2,11,'profesores_alumnos_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (3,9,'alumnos_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (3,10,'alumnos_alumnos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (3,11,'alumnos_alumnos_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,3,'Investigador_anhos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,5,'Investigador_universidades');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,6,'Investigador_practicas');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,7,'Investigador_colegios');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,8,'Investigador_grupos_practicas');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,9,'Investigador_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,10,'Investigador_alumnos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,11,'Investigador_alumnos_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,3,'desarrollador_anhos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,4,'desarrollador_universidades');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,5,'desarrollador_usuarios');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,6,'desarrollador_practicas');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,7,'desarrollador_colegios');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,8,'desarrollador_grupos_practicas');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,9,'desarrollador_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,10,'desarrollador_alumnos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,11,'desarrollador_alumnos_juegos');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (1,12,'estadisticas_administrador');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (5,12,'estadisticas_desarrollador');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (2,12,'estadisticas_alumno');
+INSERT INTO `` (`fkperfil`,`fkmenu`,`aux1`) VALUES (4,12,'estadisiticas_investigador');
