@@ -20,7 +20,9 @@
 					<li><a href="./alumnos">Alumnos</a></li>
 					<li><a href="./cuest_curso">Cuestionarios</a></li>
 					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones">Regiones</a></li>
+					<li><a href="./regiones_pais">Regiones</a></li>
+					<li><a href="./estadisticas">Estadisticas</a></li>
+					<li><a href="./anhos">Anhos</a></li>
 				</ul>
 	    	</div>
 	    </div>

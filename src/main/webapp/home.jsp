@@ -21,7 +21,9 @@
 				<li><a href="./alumnos">Alumnos</a></li>
 				<li><a href="./cuest_curso">Cuestionarios</a></li>
 				<li><a href="./paises">Paises</a></li>
-				<li><a href="./regiones">Regiones</a></li>
+				<li><a href="./regiones_pais">Regiones</a></li>
+				<li><a href="./estadisticas">Estadisticas</a></li>
+				<li><a href="./anhos">Anhos</a></li>
 			</ul>
     	</div>
     </div>
@@ -29,7 +31,7 @@
     <div class="col-10">
     	<div style="text-align: center">
 		    <h1>Home</h1>
-		    <b>Logged in as: ${user.email}</b>
+		    <b>Logeado como: ${user.email}</b>
 		    <br><br>
 		    <a href="./logout">Logout</a>    
 		</div>

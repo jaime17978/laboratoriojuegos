@@ -58,6 +58,7 @@ public class CuestionarioDAO {
             stmt.setInt(3, idJuego);
             ResultSet result = stmt.executeQuery();
             Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
+            
             if (result.next()) {
             	//update admin_juegos.practicas set pkpractica = 1000 where nombreasignatura = "Asignatura prueba";
             	PreparedStatement stmtUpdate = connection.prepareStatement("UPDATE alumnos_juegos SET favorito = ?, barrio = ?, colegio = ?, fechamodificacion = ? WHERE fkusuario = ? AND fkalumno = ? AND fkjuego = ? AND fechabaja IS NULL");
@@ -68,6 +69,7 @@ public class CuestionarioDAO {
             	stmtUpdate.setInt(5, id);
             	stmtUpdate.setInt(6, idAlumno);
             	stmtUpdate.setInt(7, idJuego);
+            	System.out.println(stmtUpdate);
                 stmtUpdate.executeUpdate();
             }
             

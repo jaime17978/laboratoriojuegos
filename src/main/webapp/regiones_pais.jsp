@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Cuestionarios</title>
+	<title>Regiones</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -31,16 +31,16 @@
 	    <div class="col-10">
 	    	<div style="text-align: center" class="mt-4">
 	    		
-	    		<form action="cuest_curso" method="post">
-	    			<label for="cuest_curso">Curso</label>
+	    		<form action="regiones_pais" method="post">
+	    			<label for="regiones_pais">Pais</label>
 	    			<br>
-				    <select class="cursos" name="cuest_curso">
-						<c:forEach var="curso" items="${listaCursos}">
-							<option value="${curso.id}" ${curso.id == 1 ? 'selected="selected"' : ''}>${curso.nombre}</option>
+				    <select class="paises" name="regiones_pais">
+						<c:forEach var="pais" items="${listaPaises}">
+							<option value="${pais.id}" ${pais.id == "ad" ? 'selected="selected"' : ''}>${pais.nombre}</option>
 						</c:forEach>
 					</select>
 				    <br><br>
-				    <button type="submit">Seleccionar curso</button>
+				    <button type="submit">Seleccionar pais</button>
 				 </form>
 				 
 	    		

@@ -19,7 +19,7 @@ public class RegionDAO {
         
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
             
-        	String sql = "SELECT * FROM regiones LIMIT 100";
+        	String sql = "SELECT * FROM regiones";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
              
@@ -98,6 +98,34 @@ public class RegionDAO {
         stmt.executeUpdate();
 
         con.close();
+	}
+
+	public List<Region> regionesBD(String p) throws ClassNotFoundException, SQLException {
+		List<Region> listaRegiones = new ArrayList<>();
+        Class.forName("com.mysql.cj.jdbc.Driver");  
+        
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+            
+        	PreparedStatement stmt = connection.prepareStatement("SELECT * FROM regiones WHERE fkpais = ?");
+            stmt.setString(1, p);
+            ResultSet result = stmt.executeQuery();
+             
+            while (result.next()) {
+                String id = result.getString("pkregion");
+                String nombre = result.getString("nombreregion");
+                String pais =  result.getString("fkpais");
+                
+                Region region = new Region(id, nombre, pais);
+                     
+                listaRegiones.add(region);
+            }             
+             
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }      
+         
+        return listaRegiones;
 	}
 	
 }

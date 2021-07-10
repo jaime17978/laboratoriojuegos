@@ -26,38 +26,6 @@ public class RegionesServlet extends HttpServlet {
         super();
     }
 
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RegionDAO daoRegion = new RegionDAO();
-		PaisDAO daoPais = new PaisDAO();
-		HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
-        
-		try {
-            
-            List<Pais> listaPaises = daoPais.paisesBD();
-            request.setAttribute("listaPaises", listaPaises);
-            
-            List<Region> listaRegiones = daoRegion.regionesBD();
-            request.setAttribute("listaRegiones", listaRegiones);
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("regiones.jsp");
-            dispatcher.forward(request, response);
- 
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new ServletException(e);
-        }
-	}
-
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		RegionDAO dao = new RegionDAO();

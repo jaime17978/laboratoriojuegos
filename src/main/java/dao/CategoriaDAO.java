@@ -63,6 +63,31 @@ public class CategoriaDAO {
         return listCategory;
     }
     
+    public List<Categoria> cursosEstadisticasBD(int id) throws SQLException, ClassNotFoundException {
+        List<Categoria> listCategory = new ArrayList<>();
+        Class.forName("com.mysql.cj.jdbc.Driver");  
+        
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+            String sql = "SELECT DISTINCT fkcurso, nombrecurso from admin_juegos.alumnos_juegos as a join admin_juegos.cursos as b where a.fkcurso = b.pkcurso and a.fkusuario ="+id;
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+             
+            while (result.next()) {
+                int id_res = result.getInt("fkcurso");
+                String nombre = result.getString("nombrecurso");
+                Categoria category = new Categoria(id_res, nombre);
+                     
+                listCategory.add(category);
+            }          
+             
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }      
+         
+        return listCategory;
+    }
+    
     public List<Categoria> idiomasBD() throws SQLException, ClassNotFoundException {
         List<Categoria> listCategory = new ArrayList<>();
         Class.forName("com.mysql.cj.jdbc.Driver");  
