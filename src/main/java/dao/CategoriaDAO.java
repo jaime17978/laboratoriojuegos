@@ -93,13 +93,38 @@ public class CategoriaDAO {
         Class.forName("com.mysql.cj.jdbc.Driver");  
         
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
-            String sql = "SELECT * FROM idiomas ORDER BY nombreidioma";
+            String sql = "SELECT * FROM idiomas";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
              
             while (result.next()) {
                 int id = result.getInt("pkidioma");
                 String nombre = result.getString("nombreidioma");
+                Categoria category = new Categoria(id, nombre);
+                     
+                listCategory.add(category);
+            }          
+             
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }      
+         
+        return listCategory;
+    }
+    
+    public List<Categoria> perfilesBD() throws SQLException, ClassNotFoundException {
+        List<Categoria> listCategory = new ArrayList<>();
+        Class.forName("com.mysql.cj.jdbc.Driver");  
+        
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+            String sql = "SELECT * FROM perfiles WHERE activo = 1";
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+             
+            while (result.next()) {
+                int id = result.getInt("pkperfil");
+                String nombre = result.getString("nombreperfil");
                 Categoria category = new Categoria(id, nombre);
                      
                 listCategory.add(category);

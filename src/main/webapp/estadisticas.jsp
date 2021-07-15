@@ -25,6 +25,8 @@
 					<li><a href="./regiones_pais">Regiones</a></li>
 					<li><a href="./estadisticas">Estadisticas</a></li>
 					<li><a href="./anhos">Anhos</a></li>
+					<li><a href="./universidades">Universidades</a></li>
+					<li><a href="./usuarios">Usuarios</a></li>
 				</ul>
 				<button type="button" class="mt-5 add_al">Añadir alumno</button>
 	    	</div>
