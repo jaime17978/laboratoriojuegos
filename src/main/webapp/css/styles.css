@@ -29,6 +29,6 @@
     z-index:1000 !important;
 }
 
-table, th, td {
-  border: 1px solid black;
+table{
+	border-radius: 20px;
 }

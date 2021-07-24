@@ -149,10 +149,12 @@ public class AlumnoDAO {
         Connection con;
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
 		PreparedStatement stmt = con.prepareStatement("UPDATE alumnos SET edad=?, fkusuario=?, fechamodificacion=? WHERE pkalumno=?");
+		
         stmt.setInt(1, edad);
         stmt.setInt(2, usuarioKey);
         stmt.setTimestamp(3, date);
         stmt.setInt(4, id);
+        System.out.println(stmt);
         stmt.executeUpdate();
 
         con.close();

@@ -9,50 +9,52 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/alumnos.js"></script>
+    <link rel="stylesheet" href="css/styles_home.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 </head>
 <body>
 	<div class="container">
 	  <div class="row">
 	    <div class="col-2">
-	    	<div id="navegador">
-	    		<ul class="pt-3 pe-4">
-	    			<li><a href="./logout">Logout</a> </li>
-					<li><a href="./juegos">Juegos</a></li>
-					<li><a href="./alumnos">Alumnos</a></li>
-					<li><a href="./cuest_curso">Cuestionarios</a></li>
-					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones_pais">Regiones</a></li>
-					<li><a href="./estadisticas">Estadisticas</a></li>
-					<li><a href="./anhos">Anhos</a></li>
-					<li><a href="./universidades">Universidades</a></li>
-					<li><a href="./usuarios">Usuarios</a></li>
-				</ul>
-				<button type="button" class="mt-5 add_al">Añadir alumno</button>
-	    	</div>
+	    	<div class="sidenav">
+				<a href="./juegos">Juegos</a>
+				<a href="./alumnos">Alumnos</a>
+				<a href="./cuest_curso">Cuestionarios</a>
+				<a href="./paises">Paises</a>
+				<a href="./regiones_pais">Regiones</a>
+				<a href="./estadisticas">Estadisticas</a>
+				<a href="./anhos">Años</a>
+				<a href="./universidades">Universidades</a>
+				<a href="./usuarios">Usuarios</a>
+				<a href="./colegios">Colegios</a>
+				<a href="./practicas">Practicas</a>
+				<br>
+				<a href="./logout">Salir</a> 
+			</div>
 	    </div>
-	    <div class="col-10">
+	    <div class="col-8 mt-3">
 	    	<div style="text-align: center">
-			    <table>
-				  <tr>
-				  	<th class="d-none">ID</th>
-				    <th>Nombre</th>
-				    <th>Genero</th>
-				    <th>Edad</th>
-				    <th>Curso</th>
+			    <table class="table">
+				  <tr class="bg-primary text-light">
+				  	<th class="d-none" scope="col">ID</th>
+				    <th scope="col">Nombre</th>
+				    <th scope="col">Genero</th>
+				    <th scope="col">Edad</th>
+				    <th scope="col">Curso</th>
+				    <th scope="col">Borrar</th>
 				  </tr>
 				  <tr class="d-none copia">
 				  		<td class="d-none colId"></td>
-				  		<td><input type="text" class="iNombre" maxlength="255" value=""></td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value=""></td>
 				  		<td>
-					  		<select class="ddGenero" name="alumno_g">
+					  		<select class="ddGenero form-control" name="alumno_g">
 					  			<option value="niño" selected="selected">niño</option>
 					  			<option value="niña" >niña</option>
 							</select>
 						</td>
-				  		<td><input id="number" class="iEdad" type="number" value=0></td>
+				  		<td><input id="number" class="form-control form-input mx-auto iEdad" min="0" type="number" value=0 ></td>
 				  		<td>
-					  		<select class="ddCurso" name="alumno_c">
+					  		<select class="ddCurso form-control" name="alumno_c">
 							    <c:forEach var="curso" items="${listaCursos}">
 							        <option value="${curso.id}" ${curso.id == 1 ? 'selected="selected"' : ''}>${curso.nombre}</option>
 							    </c:forEach>
@@ -68,16 +70,16 @@
 				  <c:forEach items="${listaAlumnos}" var="alumno">
 				  	<tr>
 				  		<td class="d-none colId">${alumno.id}</td>
-				  		<td><input type="text" class="iNombre" maxlength="255" value="${alumno.nombre}"></td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value="${alumno.nombre}"></td>
 				  		<td>
-					  		<select class="ddGenero" name="alumno_g">
+					  		<select class="ddGenero form-control" name="alumno_g">
 					  			<option value="niño" ${"niño" == alumno.genero ? 'selected="selected"' : ''}>niño</option>
 					  			<option value="niña" ${"niña" == alumno.genero ? 'selected="selected"' : ''}>niña</option>
 							</select>
 						</td>
-				  		<td><input id="number" class="iEdad" type="number" value=${alumno.edad}></td>
+				  		<td><input id="number" class="form-control form-input iEdad" min="0" type="number" value=${alumno.edad}></td>
 				  		<td>
-					  		<select class="ddCurso" name="alumno_c">
+					  		<select class="ddCurso form-control" name="alumno_c">
 							    <c:forEach var="curso" items="${listaCursos}">
 							        <option value="${curso.id}" ${curso.id == alumno.curso ? 'selected="selected"' : ''}>${curso.nombre}</option>
 							    </c:forEach>
@@ -93,6 +95,9 @@
 				  </c:forEach>
 				</table>  
 			</div>
+	    </div>
+	    <div class="col-2 mt-3">
+	    	<button type="button" class="add_al btn btn-primary">Añadir pais</button>
 	    </div>
 	  </div>
 	</div>

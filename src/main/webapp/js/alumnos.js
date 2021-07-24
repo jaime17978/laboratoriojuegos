@@ -40,6 +40,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
    $('.iEdad').change( function(){
+   		console.log($(this).parent().siblings(".colId").eq(0).html())
 		$.ajax('m_alumno', {
 	    type: 'POST',  
 	    data: { edad: $(this).val(), id: $(this).parent().siblings(".colId").eq(0).html() }, 

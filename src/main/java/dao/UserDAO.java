@@ -30,6 +30,9 @@ public class UserDAO {
             user.setLanguage(rs.getInt("fkidioma"));
             user.setPermissions(rs.getInt("fkperfil"));
         }
+        else {
+        	return null;
+        }
         con.close();
         
         try {

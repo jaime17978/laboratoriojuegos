@@ -41,7 +41,8 @@ public class ModificarAlumnoServlet extends HttpServlet {
         	}
         	else if (request.getParameter("edad") != null) {
         		int edad = Integer.parseInt(request.getParameter("edad"));
-        		
+        		System.out.println(id);
+        		System.out.println(edad);
         		dao.modificarAlumnoEdad(user.getId(), id, edad);
         	}
         	else if (request.getParameter("curso") != null) {

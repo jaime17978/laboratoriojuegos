@@ -70,6 +70,8 @@ public class JuegosServlet extends HttpServlet {
             List<Categoria> listaIdiomas = dao.idiomasBD();
             request.setAttribute("listaIdiomas", listaIdiomas);
             
+            request.setAttribute("message", "El juego ha sido creado correctamente.");
+            
             RequestDispatcher dispatcher = request.getRequestDispatcher("juegos.jsp");
             dispatcher.forward(request, response);
 		} catch (ClassNotFoundException | SQLException e) {
