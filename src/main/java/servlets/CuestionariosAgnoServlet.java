@@ -27,15 +27,25 @@ import models.Cuestionario;
 import models.Juego;
 import models.User;
 
+/**
+ * Clse servlet que maneja las peticiones de la pagina de seleccion de curso
+ * de la pantalla de cuestionarios.
+ * 
+ * Antes de que un usuario pueda acceder a los cuestionarios debe seleccionar el curso
+ * para el que quiere crear o modificar los cuestionarios.
+ * 
+ * Es importante tener en cuenta que para que un curso aparezca como opcion posible para
+ * crear/modificar cuestionarios, primero se debe crear un alumno en ese curso.
+ */
 @WebServlet("/cuest_curso")
 public class CuestionariosAgnoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public CuestionariosAgnoServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
+	/**
+	 * Metodo que maneja las peticiones GET.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CategoriaDAO dao = new CategoriaDAO();
 		AlumnoDAO daoAlumnos = new AlumnoDAO();
@@ -43,7 +53,10 @@ public class CuestionariosAgnoServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         
         try {
-            
+            /**
+             * Se obtiene la lista de cursos mediante el DAO y
+             * se le pasa a la pagina correspondiente.
+             */
             List<Categoria> listaCursos = dao.cursosCuestBD(user);
             request.setAttribute("listaCursos", listaCursos);
             
@@ -58,7 +71,11 @@ public class CuestionariosAgnoServlet extends HttpServlet {
 		
 	}
 
-
+	/**
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int curso = Integer.parseInt(request.getParameter("cuest_curso"));
@@ -71,7 +88,10 @@ public class CuestionariosAgnoServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         
         try {
-
+        	/**
+        	 * Se obtienen los datos necesarios de la base de datos mediante
+        	 * los DAO.
+        	 */
             List<Alumno> listaAlumnos = daoAlumnos.alumnosUsuarioCursoBD(user.getId(), curso);
             request.setAttribute("listaAlumnos", listaAlumnos);
             
@@ -87,6 +107,12 @@ public class CuestionariosAgnoServlet extends HttpServlet {
             	listaNombres.add(j.getName());
             }
             
+            /**
+             * Para poder utilizar la funcion de autocompletar
+             * al escribir el nombre de un juego en el cuestionario
+             * es necesario pasar la lista de nombres de juegos a 
+             * JSON para que la pagina (cuestionarios.jsp) la pueda utilizar.
+             */
             String json = new Gson().toJson(listaNombres);
             request.setAttribute("listaNombres", json);
             

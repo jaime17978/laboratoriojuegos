@@ -18,6 +18,9 @@ import models.Pais;
 import models.Region;
 import models.User;
 
+/**
+ * Clase servlet que maneja las peticiones POST de la pagina de regiones.
+ */
 @WebServlet("/regiones")
 public class RegionesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +29,11 @@ public class RegionesServlet extends HttpServlet {
         super();
     }
 
+    /**
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		RegionDAO dao = new RegionDAO();
@@ -37,7 +45,11 @@ public class RegionesServlet extends HttpServlet {
         String id_a;
         
         try {
-        	
+        	/**
+        	 * En funcion del parametro "option" de la peticion
+        	 * el metodo realizara diferentes acciones en la base de datos
+        	 * (Ej: crear, cambiar id, borrar, etc.).
+        	 */
         	switch(option) {
                case "c_id":
             	   id = request.getParameter("id");

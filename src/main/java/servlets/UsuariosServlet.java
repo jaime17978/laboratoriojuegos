@@ -19,11 +19,18 @@ import models.Categoria;
 import models.Universidad;
 import models.User;
 
-
+/**
+ * Clase servlet que maneja las peticiones a la url de usuarios.
+ */
 @WebServlet("/usuarios")
 public class UsuariosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	/**
+	 * Metodo que maneja las peticiones GET.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UniversidadDAO daoUni = new UniversidadDAO();
 		UserDAO daoUsuarios = new UserDAO();
@@ -31,6 +38,10 @@ public class UsuariosServlet extends HttpServlet {
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
+        /**
+         * Se comprueba si el usuario tiene permiso para acceder a esta pagina. Si no es
+         * asi se le redirecciona a la pagina de error.
+         */
         if (user.getPermissions() != 1) {
         	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
             
@@ -40,6 +51,10 @@ public class UsuariosServlet extends HttpServlet {
         
         try {
             
+        	/**
+        	 * Mediante los diferentes DAO, se obtiene la informacion de universidades,
+        	 * idiomas, perfiles y usuarios que necesitamos para mostrar en la pagina.
+        	 */
             List<Universidad> listaUnis = daoUni.universidadesBD();
             request.setAttribute("listaUniversidades", listaUnis);
             
@@ -61,7 +76,11 @@ public class UsuariosServlet extends HttpServlet {
         }
 	}
 
-
+	/**
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserDAO dao = new UserDAO();
 		HttpSession session = request.getSession();
@@ -74,7 +93,13 @@ public class UsuariosServlet extends HttpServlet {
         int idNueva;
         
         try {
-        	
+        	/**
+        	 * En el javascript de la pagina de usuarios se envia un parametro llamado "option".
+        	 * Este parametro determina que accion debe tomar esta funcion (Ej: modificar el idioma,
+        	 * borrar al usuario, etc.).
+        	 * 
+        	 * Los cambios en la base de datos se realizan mediante los DAO.
+        	 */
         	switch(option) {
                case "c_email":
             	   id = Integer.parseInt(request.getParameter("id"));
@@ -123,7 +148,6 @@ public class UsuariosServlet extends HttpServlet {
             	   break;
             	   
                case "create":
-            	   System.out.println("EEEOOOOO");
             	   idNueva = dao.crearUsuario(user.getId());  	
             	   System.out.println(idNueva);
             	   response.setContentType("text/plain");

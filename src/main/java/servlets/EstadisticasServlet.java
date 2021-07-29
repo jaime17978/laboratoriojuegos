@@ -2,10 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,31 +12,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-
-import dao.AlumnoDAO;
 import dao.CategoriaDAO;
-import dao.CuestionarioDAO;
 import dao.EstadisticasDAO;
-import dao.JuegoDAO;
-import models.Alumno;
 import models.Categoria;
 import models.ContadorEst;
-import models.Cuestionario;
-import models.Juego;
 import models.User;
 
+/**
+ * Clase servlet que maneja las peticiones de la pantalla estadisticas.
+ */
 @WebServlet("/estadisticas")
 public class EstadisticasServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Metodo que maneja las peticiones GET. Obtiene la lista de los
+	 * cursos para los que el usuario ha creado cuestionarios y la muestra
+	 * en un formulario.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CategoriaDAO dao = new CategoriaDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
         try {
-            
+            /**
+             * Obtiene los cursos para los que el usuario ha creado cuestionarios
+             * y redirecciona a la pagina est_menu.
+             */
             List<Categoria> listaCursos = dao.cursosEstadisticasBD(user.getId());
             request.setAttribute("listaCursos", listaCursos);
             
@@ -53,7 +55,14 @@ public class EstadisticasServlet extends HttpServlet {
 		
 	}
 
-
+	/**
+	 * Metodo que maneja las peticiones POST. Recibe la peticion que se envia
+	 * cuando el usuario elige el curso para el que quiere ver estadisticas,
+	 * calcula las estadisticas a traves de los DAO y redirecciona a la pagina
+	 * donde se visualizan las tablas con las estadisticas.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int curso;
 		String titulo;

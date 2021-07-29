@@ -6,11 +6,22 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import models.Categoria;
 import models.User;
 
+/**
+ * Clase que contiene los metodos que acceden 
+ * a la tabla "Usuarios" de la base de datos.
+ */
 public class UserDAO {
-
+	
+	/**
+	 * Realiza el proceso de login para un usuario.
+	 * @param email Correo electronico del usuario.
+	 * @param password Contraseña del usuario.
+	 * @return Objeto "User" con los datos del usuario en caso de que la informacion de login sea correcta. En caso contrario devuelve null.
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
     public User userLogin(String email, String password) throws SQLException, ClassNotFoundException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -47,6 +58,15 @@ public class UserDAO {
         
     }
 
+    /**
+     * Metodo temporal de cambio de contraseña. Este metodo tiene que ser reemplazado por un mecanismo
+     * mas apropiado de cambio de contraseña. Solamente se ha creado para hacer pruebas.
+     * @param email Correo del usuario.
+     * @param password Contraseña nueva del usuario.
+     * @return Objeto "User" con los datos del usuario.
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
 	public User userChangePassword(String email, String password) throws ClassNotFoundException, SQLException {
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
@@ -80,18 +100,27 @@ public class UserDAO {
         return user;
 	}
 	
-	
+	/**
+	 * Devuelve los usuarios no dados de baja de la base de datos.
+	 * @return Lista de objetos "User" con los resultados de la consulta.
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public List<User> usuariosBD() throws SQLException, ClassNotFoundException {
         List<User> listUsuarios = new ArrayList<>();
         Class.forName("com.mysql.cj.jdbc.Driver");  
-        
+        //Iniciamos la conexion con la base de datos.
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
             String sql = "SELECT * FROM usuarios WHERE fechabaja IS NULL";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
              
             User user = null;
-            
+            /**
+             * Guardamos los resultados en objetos "User". Estos
+             * objetos se guardan en una lista que se devuelve al
+             * servlet.
+             */
             while (result.next()) {
             	
             	user = new User();
@@ -113,6 +142,14 @@ public class UserDAO {
         return listUsuarios;
     }
 	
+	/**
+	 * Cambia el email de un usuario.
+	 * @param id Clave primaria del usuario al que se le cambia el correo.
+	 * @param email Correo nuevo del usuario.
+	 * @param id_editor Clave primaria del usuario que realiza el cambio de correo.
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void cambioEmail(int id, String email, int id_editor) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
@@ -129,6 +166,14 @@ public class UserDAO {
 		
 	}
 	
+	/**
+	 * Cambia el tipo de perfil del usuario.
+	 * @param id Clave primaria del usuario al que se le cambia el tipo de perfil. 
+	 * @param perfil Tipo de perfil nuevo.
+	 * @param id_editor Clave primaria del usuario que realiza el cambio.
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void cambioPerfil(int id, int perfil, int id_editor) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
@@ -145,6 +190,14 @@ public class UserDAO {
 		
 	}
 	
+	/**
+	 * Cambia el idioma de un usuario.
+	 * @param id Clave primaria del usuario al que se le cambia el idioma.
+	 * @param idioma Idioma nuevo del usuario.
+	 * @param id_editor Clave primaria del usuario que realiza el cambio.
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void cambioIdioma(int id, int idioma, int id_editor) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
@@ -161,6 +214,14 @@ public class UserDAO {
 		
 	}
 	
+	/**
+	 * Cambia la universidad de un usuario.
+	 * @param id Clave primaria del usuario al que se le cambia la universidad.
+	 * @param universidad Nueva universidad del usuario.
+	 * @param id_editor Clave primaria del usuario que realiza el cambio.
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void cambioUniversidad(int id, int universidad, int id_editor) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
@@ -177,6 +238,14 @@ public class UserDAO {
 		
 	}
 	
+	/**
+	 * Activa o desactiva un usuario.
+	 * @param id Clave primaria del usuario al que se le cambia el estado de activo.
+	 * @param activo Nuevo estado de activo (true/false).
+	 * @param id_editor Clave primaria del usuario que realiza el cambio.
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void cambioActivo(int id, boolean activo, int id_editor) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
@@ -193,6 +262,13 @@ public class UserDAO {
 		
 	}
 	
+	/**
+	 * Realiza una baja logica de un usuario.
+	 * @param id Clave primaria del usuario que se va a dar de baja.
+	 * @param id_editor Clave primaria del usuario que realiza la baja.
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void borrarUsuario(int id, int id_editor) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
@@ -208,6 +284,13 @@ public class UserDAO {
 		
 	}
 	
+	/**
+	 * Crea un usuario con datos por defecto en la base de datos.
+	 * @param userId Clave primaria del usuario que crea al otro usuario.
+	 * @return Entero con la clave primaria del usuario creado.
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public int crearUsuario(int userId) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());

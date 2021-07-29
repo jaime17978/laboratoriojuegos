@@ -16,15 +16,30 @@ import dao.AnhoDAO;
 import models.Categoria;
 import models.User;
 
+/**
+ * Clase servlet de manejo de las peticiones enviadas
+ * a la url de la pagina de años.
+ */
 @WebServlet("/anhos")
 public class AnhosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+     
+	/**
+	 * Metodo que maneja las peticiones GET.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AnhoDAO dao = new AnhoDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
+        /**
+         * Dado que la pantalla de años es solo para administradores o
+         * desarrolladores es necesario comprobar los permisos del usuario.
+         * Si no tiene los permisos necesarios se le redireccionara a la pagina
+         * de error.
+         */
         if (user.getPermissions() != 1) {
         	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
             
@@ -33,7 +48,11 @@ public class AnhosServlet extends HttpServlet {
         }
         
 		try {
-            
+            /**
+             * Se accede a la base de datos mediante el DAO
+             * y este devuelve una lista de los años que se le pasa
+             * a la pagina.
+             */
             List<Categoria> listaAnhos = dao.anhosBD();
             request.setAttribute("listaAnhos", listaAnhos);
             
@@ -46,6 +65,11 @@ public class AnhosServlet extends HttpServlet {
         }
 	}
 	
+	/**
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
 		AnhoDAO dao = new AnhoDAO();
@@ -57,7 +81,11 @@ public class AnhosServlet extends HttpServlet {
         int idNueva;
         
         try {
-        	
+        	/**
+        	 * En funcion del valor del parametro "option" este metodo
+        	 * realizara diferentes cambios en la tabla de años (Ej: cambiar
+        	 * el nombre, borrar o crear).
+        	 */
         	switch(option) {
                case "c_nombre":
             	   nombre = request.getParameter("nombre");
@@ -74,7 +102,12 @@ public class AnhosServlet extends HttpServlet {
             	   
                case "create":
             	   idNueva = dao.crearAnho(user.getId());  	
-            	   
+            	   /**
+            	    * Cuando se crea un año nuevo en la tabla de la base de datos
+            	    * es necesario pasarle la id del nuevo año creado a la pagina
+            	    * mediante la respuesta ya que esta peticion POST se hace de 
+            	    * manera asincrona mediante AJAX (Ver: anhos.js).
+            	    */
             	   response.setContentType("text/plain");
                    response.setCharacterEncoding("UTF-8"); 
                    response.getWriter().write(Integer.toString(idNueva));

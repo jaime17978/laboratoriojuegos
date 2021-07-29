@@ -23,11 +23,18 @@ import models.Colegio;
 import models.Practica;
 import models.Region;
 import models.User;
-
+/**
+ * Servlet de manejo de las peticiones enviadas a la url de practicas.
+ */
 @WebServlet("/practicas")
 public class PracticasServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	/**
+	 * Metodo que maneja las peticiones GET.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PracticaDAO daoPractica = new PracticaDAO();
 		CategoriaDAO daoCategoria = new CategoriaDAO();
@@ -36,7 +43,11 @@ public class PracticasServlet extends HttpServlet {
 		AnhoDAO daoAnho = new AnhoDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        
+        /**
+         * Dado que la pagina de practicas es solo para administrador/desarrollador
+         * es necesario comprobar los permisos. Si el usuario no tiene permisos se le
+         * redirecciona a la pagina de error.
+         */
         if (user.getPermissions() != 1) {
         	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
             
@@ -45,7 +56,11 @@ public class PracticasServlet extends HttpServlet {
         }
         
         try {
-            
+            /**
+             * Mediante los diferentes DAO se accede a la base de datos para
+             * obtener las practicas, colegios, tipos de actividad y años que hacen
+             * falta para utilizarse en la pagina.
+             */
         	List<Practica> listaPracticas = daoPractica.practicasBD();
             request.setAttribute("listaPracticas", listaPracticas);
         	
@@ -70,7 +85,11 @@ public class PracticasServlet extends HttpServlet {
         }
 	} 
 
-
+	/**
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PracticaDAO dao = new PracticaDAO();
 		HttpSession session = request.getSession();
@@ -82,7 +101,11 @@ public class PracticasServlet extends HttpServlet {
         int fk;
         
         try {
-        	
+        	/**
+        	 * En funcion de los parametros de la peticion se
+        	 * realizaran unos cambios u otros (Ej: cambiar el nombre,
+        	 * cambiar el colegio, borrar, crear, etc.).
+        	 */
         	switch(option) {
                case "c_nombre":
             	   id = Integer.parseInt(request.getParameter("id"));

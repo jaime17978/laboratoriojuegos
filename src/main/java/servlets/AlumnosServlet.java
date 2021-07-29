@@ -1,5 +1,8 @@
 package servlets;
 
+/**
+ * Clase servlet que maneja la peticion GET de la pagina de alumnos.
+ */
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,11 +24,19 @@ import models.Alumno;
 @WebServlet("/alumnos")
 public class AlumnosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	/**
+	 * Constructor de la clase AlumnosServlet.
+	 */
     public AlumnosServlet() {
         super();
     }
-
+    
+    /**
+     * Metodo que maneja las peticiones get que se envian a la url del servlet.
+     * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+     */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		CategoriaDAO dao = new CategoriaDAO();
@@ -35,11 +46,14 @@ public class AlumnosServlet extends HttpServlet {
         
         try {
             
+        	/*
+        	 * Mediante los DAO de categoria y alumnos accedemos a la base de datos,
+        	 * guardando los datos obtenidos en objetos de las clases del paquete models,
+        	 * que luego se pasan a la pagina JSP mediante request.setAttribute para acceder
+        	 * a los datos desde la pagina.
+        	 */
             List<Categoria> listaCursos = dao.cursosBD();
             request.setAttribute("listaCursos", listaCursos);
-            
-            //List<Categoria> listaIdiomas = dao.idiomasBD();
-            //request.setAttribute("listaIdiomas", listaIdiomas);
             
             List<Alumno> listaAlumnos = daoAlumnos.alumnosUsuarioBD(user.getId());
             request.setAttribute("listaAlumnos", listaAlumnos);
@@ -53,7 +67,7 @@ public class AlumnosServlet extends HttpServlet {
         }
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	/*protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		CategoriaDAO dao = new CategoriaDAO();
 		
@@ -83,6 +97,6 @@ public class AlumnosServlet extends HttpServlet {
 			doGet(request,response);
 		}
 		
-	}
+	}*/
 
 }

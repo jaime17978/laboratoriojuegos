@@ -14,22 +14,26 @@ import dao.CuestionarioDAO;
 import models.User;
 
 /**
- * Servlet implementation class BorrarCuestionarioServlet
+ * Clase servlet de borrado de cuestionarios.
  */
 @WebServlet("/b_cuest")
 public class BorrarCuestionarioServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
 	
+	/**
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	
     	try {
-			
+			/**
+			 * Obtiene la id del cuestionario (tabla alumnos_juegos) desde
+			 * la peticion y se la pasa al DAO para que acceda a la base de
+			 * datos y lo borre.
+			 */
     		CuestionarioDAO dao = new CuestionarioDAO();
     		HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");

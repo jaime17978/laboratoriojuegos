@@ -27,6 +27,9 @@ import models.Cuestionario;
 import models.Juego;
 import models.User;
 
+/**
+ * Clase servlet que maneja las peticiones POST de la pagina de cuestionarios.
+ */
 @WebServlet("/cuestionarios")
 public class CuestionariosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,8 +38,17 @@ public class CuestionariosServlet extends HttpServlet {
         super();
     }
 
+    /**
+	 * Metodo que maneja las peticiones POST que se envian al marcar/desmarcar
+	 * checkboxes en los cuestionarios.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+        /**
+         * Mediande el DAO de cuestionarios se accede a la base de datos
+         * para crear/modificar el cuestionario que corresponde.
+         */
 		try {
         	CuestionarioDAO dao = new CuestionarioDAO();
     		HttpSession session = request.getSession();

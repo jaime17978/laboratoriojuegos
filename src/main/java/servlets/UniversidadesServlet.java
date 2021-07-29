@@ -18,6 +18,10 @@ import models.Region;
 import models.Universidad;
 import models.User;
 
+/**
+ * Clase servlet que maneja las peticiones enviadas a la
+ * URL de la pagina de universidades.
+ */
 @WebServlet("/universidades")
 public class UniversidadesServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,13 +30,23 @@ public class UniversidadesServlet extends HttpServlet {
     public UniversidadesServlet() {
         super();
     }
-
+    /**
+	 * Metodo que maneja las peticiones GET.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UniversidadDAO daoUni = new UniversidadDAO();
 		RegionDAO daoRegion = new RegionDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
+        /**
+         * Al ser una pagina a la que solo puede acceder un administrador
+         * o desarrollador hay que comprobar los permisos del usuario.
+         * Si el usuario no tiene permisos para entrar se le redirecciona
+         * a la pagina de error. 
+         */
         if (user.getPermissions() != 1) {
         	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
             
@@ -41,7 +55,10 @@ public class UniversidadesServlet extends HttpServlet {
         }
         
         try {
-            
+            /**
+             * Se obtiene la informacion de la base de datos mediante los
+             * DAO y se le pasa esta informacion a la pagina.
+             */
             List<Universidad> listaUnis = daoUni.universidadesBD();
             request.setAttribute("listaUniversidades", listaUnis);
             
@@ -57,7 +74,11 @@ public class UniversidadesServlet extends HttpServlet {
         }
 	}
 
-
+	/**
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UniversidadDAO dao = new UniversidadDAO();
 		HttpSession session = request.getSession();
@@ -68,7 +89,11 @@ public class UniversidadesServlet extends HttpServlet {
         int idNueva;
         
         try {
-        	
+        	/**
+        	 * Segun el parametro "option" de la peticion, este metodo 
+        	 * realizara una accion diferente (Ej: crear una universidad,
+        	 * cambiar el nombre, borrar, etc.).
+        	 */
         	switch(option) {
                case "c_nombre":
             	   id = Integer.parseInt(request.getParameter("id"));

@@ -21,18 +21,29 @@ import models.Universidad;
 import models.User;
 
 /**
- * Servlet implementation class ColegiosServlet
+ * Clase servlet que se encarga del manejo de peticiones a la
+ * URL de la pagina de colegios.
  */
 @WebServlet("/colegios")
 public class ColegiosServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+      
+	/**
+	 * Metodo que maneja las peticiones GET.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ColegioDAO daoColegio = new ColegioDAO();
 		RegionDAO daoRegion = new RegionDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
+        /**
+         * Dado que esta pagina solo es accesible por administradores o
+         * desarrolladores es necesario comprobar los permisos. En caso de 
+         * que un usuario no los tenga, se le redirige a la pagina de error.
+         */
         if (user.getPermissions() != 1) {
         	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
             
@@ -41,7 +52,10 @@ public class ColegiosServlet extends HttpServlet {
         }
         
         try {
-            
+            /**
+             * Se obtienen los datos necesarios para la pagina
+             * mediante los DAO.
+             */
             List<Colegio> listaColegios = daoColegio.colegiosBD();
             request.setAttribute("listaColegios", listaColegios);
             
@@ -57,7 +71,11 @@ public class ColegiosServlet extends HttpServlet {
         }
 	}
 
-
+	/**
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ColegioDAO dao = new ColegioDAO();
 		HttpSession session = request.getSession();
@@ -70,7 +88,11 @@ public class ColegiosServlet extends HttpServlet {
         int cp;
         
         try {
-        	
+        	/**
+        	 * En funcion del parametro "option" de la peticion
+        	 * esta funcion llevara a cabo diferentes acciones (Ej: cambiar el
+        	 * nombre, crear un colegio, borrar un colegio, etc.).
+        	 */
         	switch(option) {
                case "c_nombre":
             	   id = Integer.parseInt(request.getParameter("id"));

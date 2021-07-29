@@ -21,30 +21,17 @@ import models.Juego;
 import models.User;
 
 /**
- * Servlet implementation class creaJuegoCuestServlet
+ * Clase servlet que maneja las peticiones POST de creacion
+ * de un juego que se envian desde la pagina de cuestionarios.
  */
 @WebServlet("/c_juegoCuest")
 public class CreaJuegoCuestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CreaJuegoCuestServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
+    
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Metodo que maneja las peticiones POST.
+	 * @param request Peticion que se ha realizado al servlet.
+     * @param response Objeto respuesta.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
