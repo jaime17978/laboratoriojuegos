@@ -9,27 +9,28 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/alumnos.js"></script>
+    <link rel="stylesheet" href="css/styles_home.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 </head>
 <body>
 	<div class="container">
 	  <div class="row">
 	    <div class="col-2">
-	    	<div id="navegador">
-	    		<ul class="pt-3 pe-4">
-	    			<li><a href="./logout">Logout</a> </li>
-					<li><a href="./juegos">Juegos</a></li>
-					<li><a href="./alumnos">Alumnos</a></li>
-					<li><a href="./cuest_curso">Cuestionarios</a></li>
-					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones_pais">Regiones</a></li>
-					<li><a href="./estadisticas">Estadisticas</a></li>
-					<li><a href="./anhos">Anhos</a></li>
-					<li><a href="./universidades">Universidades</a></li>
-					<li><a href="./usuarios">Usuarios</a></li>
-				</ul>
-				<button type="button" class="mt-5 add_al">Añadir alumno</button>
-	    	</div>
+	    	<div class="sidenav">
+				<a href="./juegos">Juegos</a>
+				<a href="./alumnos">Alumnos</a>
+				<a href="./cuest_curso">Cuestionarios</a>
+				<a href="./paises">Paises</a>
+				<a href="./regiones_pais">Regiones</a>
+				<a href="./estadisticas">Estadisticas</a>
+				<a href="./anhos">Años</a>
+				<a href="./universidades">Universidades</a>
+				<a href="./usuarios">Usuarios</a>
+				<a href="./colegios">Colegios</a>
+				<a href="./practicas">Practicas</a>
+				<br>
+				<a href="./logout">Salir</a> 
+			</div>
 	    </div>
 	    <div class="col-10">
 	    	<div style="text-align: center">
@@ -39,7 +40,7 @@
 	    			<div class="col-3">
 		    			<table class="table">
 					    	<h6>Tipos de juego</h6>
-						  <tr>
+						  <tr class="bg-primary text-light">
 						    <th scope="col">Tipo</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -52,9 +53,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
-		    			<table class="table">
-					    	<h6>5 Juegos mas mencionados por niños</h6>
-						  <tr>
+	    				<h6>5 Juegos mas mencionados por niños</h6>
+		    			<table class="table">					    	
+						  <tr  class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -67,9 +68,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
-		    			<table class="table">
-					    	<h6>5 Juegos mas mencionados por niñas</h6>
-						  <tr>
+	    				<h6>5 Juegos mas mencionados por niñas</h6>
+		    			<table class="table">					    	
+						  <tr  class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -82,9 +83,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
-		    			<table class="table">
-					    	<h6>5 Juegos mas mencionados en colegio</h6>
-						  <tr>
+	    				<h6>5 Juegos mas mencionados en colegio</h6>
+		    			<table class="table">					    	
+						  <tr  class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -97,9 +98,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
+	    				<h6>5 Juegos mas mencionados en barrio</h6>
 		    			<table class="table">
-					    	<h6>5 Juegos mas mencionados en barrio</h6>
-						  <tr>
+						  <tr  class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -112,9 +113,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
+	    				<h6>Juegos favoritos</h6>
 		    			<table class="table">
-					    	<h6>Juegos favoritos</h6>
-						  <tr>
+						  <tr class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -127,9 +128,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
+	    				<h6>Juegos favoritos para niños</h6>
 		    			<table class="table">
-					    	<h6>Juegos favoritos para niños</h6>
-						  <tr>
+						  <tr class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -142,9 +143,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
+	    				<h6>Juegos favoritos para niñas</h6>
 		    			<table class="table">
-					    	<h6>Juegos favoritos para niñas</h6>
-						  <tr>
+						  <tr class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -157,9 +158,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
+	    				<h6>Juegos favoritos en el colegio</h6>
 		    			<table class="table">
-					    	<h6>Juegos favoritos en el colegio</h6>
-						  <tr>
+						  <tr class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -172,9 +173,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
+	    				<h6>Juegos favoritos en el barrio</h6>
 		    			<table class="table">
-					    	<h6>Juegos favoritos en el barrio</h6>
-						  <tr>
+						  <tr class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -187,9 +188,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
+	    				<h6>Juegos favoritos en el colegio y barrio</h6>
 		    			<table class="table">
-					    	<h6>Juegos favoritos en el colegio y barrio</h6>
-						  <tr>
+						  <tr class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -202,9 +203,9 @@
 						</table>
 	    			</div>
 	    			<div class="col-3">
+	    				<h6>Frecuencia total de juegos</h6>
 		    			<table class="table">
-					    	<h6>Frecuencia total de juegos</h6>
-						  <tr>
+						  <tr class="bg-primary text-light">
 						    <th scope="col">Nombre</th>
 						    <th scope="col">Numero</th>
 						  </tr>
@@ -217,23 +218,6 @@
 						</table>
 	    			</div>
 	    		</div>
-			      <!-- 
-
-        	//Juegos favoritos en función del lugar de juego (colegio, barrio, colegio y barrio o ninguno).
-        	
-        	//Favoritos y colegio (incluye a los que tienen colegio y barrio?)
-        	List<ContadorEst> frecuenciaFavCol = dao.frecFavColCursoBD(user_id, curso);
-        	request.setAttribute("frecFavCol", frecuenciaFavCol);
-        	
-        	//Favoritos y barrio (incluye a los que tienen colegio y barrio?)
-        	List<ContadorEst> frecuenciaFavBarrio = dao.frecFavBarrioCursoBD(user_id, curso);
-        	request.setAttribute("frecFavBarrio", frecuenciaFavBarrio);
-        	
-        	//Favoritos, colegio y barrio
-        	List<ContadorEst> frecuenciaFavColBar = dao.frecFavColBarCursoBD(user_id, curso);
-        	request.setAttribute("frecFavColBar", frecuenciaFavColBar);
-			      
-			       -->
 			</div>
 	    </div>
 	  </div>

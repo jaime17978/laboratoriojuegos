@@ -159,7 +159,7 @@ public class CuestionarioDAO {
                 stmtCreate.setInt(9, id);
                 stmtCreate.setInt(10, idioma);
                 stmtCreate.setTimestamp(11, date);
-                
+                System.out.println(stmtCreate);
                 stmtCreate.executeUpdate();
             }
              

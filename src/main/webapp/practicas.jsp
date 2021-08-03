@@ -9,66 +9,71 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/practicas.js"></script>
+    <link rel="stylesheet" href="css/styles_home.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 </head>
 <body>
 	<div class="container">
 	  <div class="row">
-	    <div class="col-2">
-	    	<div id="navegador">
-	    		<ul class="pt-3 pe-4">
-	    			<li><a href="./logout">Logout</a> </li>
-					<li><a href="./juegos">Juegos</a></li>
-					<li><a href="./alumnos">Alumnos</a></li>
-					<li><a href="./cuest_curso">Cuestionarios</a></li>
-					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones_pais">Regiones</a></li>
-					<li><a href="./estadisticas">Estadisticas</a></li>
-					<li><a href="./anhos">Anhos</a></li>
-					<li><a href="./universidades">Universidades</a></li>
-					<li><a href="./usuarios">Usuarios</a></li>
-				</ul>
-				<button type="button" class="mt-5 add_pra">Añadir practica</button>
-	    	</div>
+	    <div class="col-1">
+	    	<div class="sidenav">
+				<a href="./juegos">Juegos</a>
+				<a href="./alumnos">Alumnos</a>
+				<a href="./cuest_curso">Cuestionarios</a>
+				<a href="./paises">Paises</a>
+				<a href="./regiones_pais">Regiones</a>
+				<a href="./estadisticas">Estadisticas</a>
+				<a href="./anhos">Años</a>
+				<a href="./universidades">Universidades</a>
+				<a href="./usuarios">Usuarios</a>
+				<a href="./colegios">Colegios</a>
+				<a href="./practicas">Practicas</a>
+				<br>
+				<a href="./logout">Salir</a> 
+			</div>
 	    </div>
-	    <div class="col-10">
+	    <div class="col-2">
+	    	<button type="button" class="mt-5 add_pra btn btn-primary">Añadir practica</button>
+	    </div>
+	    <div class="col-9">
 	    	<div style="text-align: center">
-			    <table>
-				  <tr>
+			    <table class="table">
+				  <tr class="bg-primary text-light">
 				  	<th class="d-none">ID</th>
-				    <th>Nombre</th>
-				    <th>Tipo</th>
-				    <th>Colegio</th>
-				    <th>Anho</th>
-				    <th>Alumno</th>
+				    <th scope="col">Nombre</th>
+				    <th scope="col" style="width: 13%">Tipo</th>
+				    <th scope="col">Colegio</th>
+				    <th scope="col" style="width: 13%">Anho</th>
+				    <th scope="col">Alumno</th>
+				    <th scope="col">Borrar</th>
 				  </tr>
 				  
 				  <tr class="d-none copia">
 				  		<td class="d-none colId"></td>
-				  		<td><input type="text" class="iNombre" maxlength="255" value=""></td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value=""></td>
 						<td>
-					  		<select class="ddTipo" name="practica_tipo">
+					  		<select class="ddTipo form-control" name="practica_tipo">
 					  			<c:forEach items="${listaTiposAct}" var="tipo">
 					  				<option value="${tipo.id}" ${tipo.id == 6 ? 'selected="selected"' : ''}>${tipo.nombre}</option>
 					  			</c:forEach>
 							</select>
 						</td>
 						<td>
-					  		<select class="ddColegio" name="practica_cole">
+					  		<select class="ddColegio form-control" name="practica_cole">
 					  			<c:forEach items="${listaColegios}" var="colegio">
 					  				<option value="${colegio.id}" ${colegio.id == 1 ? 'selected="selected"' : ''}>${colegio.nombre}</option>
 					  			</c:forEach>
 							</select>
 						</td>
 						<td>
-					  		<select class="ddAnho" name="practica_anho">
+					  		<select class="ddAnho form-control" name="practica_anho">
 					  			<c:forEach items="${listaAnhos}" var="anho">
 					  				<option value="${anho.id}" ${anho.id == 1 ? 'selected="selected"' : ''}>${anho.nombre}</option>
 					  			</c:forEach>
 							</select>
 						</td>
 						<td>
-					  		<select class="ddAlumno" name="practica_alumno">
+					  		<select class="ddAlumno form-control" name="practica_alumno">
 					  			<c:forEach items="${listaUsuarios}" var="alumno">
 					  				<option value="${alumno.id}" ${alumno.id == 1 ? 'selected="selected"' : ''}>${alumno.email}</option>
 					  			</c:forEach>
@@ -84,30 +89,30 @@
 				  <c:forEach items="${listaPracticas}" var="practica">
 				  	<tr>
 				  		<td class="d-none colId">${practica.id}</td>
-				  		<td><input type="text" class="iNombre" maxlength="255" value="${practica.nombre}"></td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value="${practica.nombre}"></td>
 						<td>
-					  		<select class="ddTipo" name="practica_tipo">
+					  		<select class="ddTipo form-control" name="practica_tipo">
 					  			<c:forEach items="${listaTiposAct}" var="tipo">
 					  				<option value="${tipo.id}" ${tipo.id == practica.tipo ? 'selected="selected"' : ''}>${tipo.nombre}</option>
 					  			</c:forEach>
 							</select>
 						</td>
 						<td>
-					  		<select class="ddColegio" name="practica_cole">
+					  		<select class="ddColegio form-control" name="practica_cole">
 					  			<c:forEach items="${listaColegios}" var="colegio">
 					  				<option value="${colegio.id}" ${colegio.id == practica.colegio ? 'selected="selected"' : ''}>${colegio.nombre}</option>
 					  			</c:forEach>
 							</select>
 						</td>
 						<td>
-					  		<select class="ddAnho" name="practica_anho">
+					  		<select class="ddAnho form-control" name="practica_anho">
 					  			<c:forEach items="${listaAnhos}" var="anho">
 					  				<option value="${anho.id}" ${anho.id == practica.anho ? 'selected="selected"' : ''}>${anho.nombre}</option>
 					  			</c:forEach>
 							</select>
 						</td>
 						<td>
-					  		<select class="ddAlumno" name="practica_alumno">
+					  		<select class="ddAlumno form-control" name="practica_alumno">
 					  			<c:forEach items="${listaUsuarios}" var="alumno">
 					  				<option value="${alumno.id}" ${alumno.id == practica.alumno ? 'selected="selected"' : ''}>${alumno.email}</option>
 					  			</c:forEach>

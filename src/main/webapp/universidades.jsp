@@ -9,45 +9,50 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/universidades.js"></script>
+    <link rel="stylesheet" href="css/styles_home.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 </head>
 <body>
 	<div class="container">
 	  <div class="row">
-	    <div class="col-2">
-	    	<div id="navegador">
-	    		<ul class="pt-3 pe-4">
-	    			<li><a href="./logout">Logout</a> </li>
-					<li><a href="./juegos">Juegos</a></li>
-					<li><a href="./alumnos">Alumnos</a></li>
-					<li><a href="./cuest_curso">Cuestionarios</a></li>
-					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones_pais">Regiones</a></li>
-					<li><a href="./estadisticas">Estadisticas</a></li>
-					<li><a href="./anhos">Anhos</a></li>
-					<li><a href="./universidades">Universidades</a></li>
-					<li><a href="./usuarios">Usuarios</a></li>
-				</ul>
-				<button type="button" class="mt-5 add_uni">Añadir universidad</button>
-	    	</div>
+	    <div class="col-1">
+	    <div class="sidenav">
+				<a href="./juegos">Juegos</a>
+				<a href="./alumnos">Alumnos</a>
+				<a href="./cuest_curso">Cuestionarios</a>
+				<a href="./paises">Paises</a>
+				<a href="./regiones_pais">Regiones</a>
+				<a href="./estadisticas">Estadisticas</a>
+				<a href="./anhos">Años</a>
+				<a href="./universidades">Universidades</a>
+				<a href="./usuarios">Usuarios</a>
+				<a href="./colegios">Colegios</a>
+				<a href="./practicas">Practicas</a>
+				<br>
+				<a href="./logout">Salir</a> 
+			</div>
 	    </div>
-	    <div class="col-10">
+	   <div class="col-2 mt-3">
+	    	<button type="button" class="mt-5 add_uni btn btn-primary">Añadir universidad</button>
+	    </div>
+	    <div class="col-8">
 	    	<div style="text-align: center">
-			    <table>
-				  <tr>
+			    <table class="table">
+				  <tr class="bg-primary text-light">
 				  	<th class="d-none">ID</th>
-				    <th>Nombre</th>
-				    <th>Direccion</th>
-				    <th>Localidad</th>
-				    <th>Region</th>
+				    <th scope="col">Nombre</th>
+				    <th scope="col">Direccion</th>
+				    <th scope="col">Localidad</th>
+				    <th scope="col">Region</th>
+				    <th scope="col">Borrar</th>
 				  </tr>
 				  <tr class="d-none copia">
 				  		<td class="d-none colId"></td>
-				  		<td><input type="text" class="iNombre" maxlength="255" value=""></td>
-				  		<td><input type="text" class="iDireccion" maxlength="255" value=""></td>
-				  		<td><input type="text" class="iLocalidad" maxlength="255" value=""></td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value=""></td>
+				  		<td><input type="text" class="iDireccion form-control form-input" maxlength="255" value=""></td>
+				  		<td><input type="text" class="iLocalidad form-control form-input" maxlength="255" value=""></td>
 				  		<td>
-					  		<select class="ddRegion" name="uni_region">
+					  		<select class="ddRegion form-control" name="uni_region">
 					  			<c:forEach items="${listaRegiones}" var="region">
 					  				<option value="${region.id}" ${region.id == '??-??' ? 'selected="selected"' : ''}>${region.nombre}</option>
 					  			</c:forEach>
@@ -63,11 +68,11 @@
 				  <c:forEach items="${listaUniversidades}" var="uni">
 				  	<tr>
 				  		<td class="d-none colId">${uni.id}</td>
-				  		<td><input type="text" class="iNombre" maxlength="255" value="${uni.nombre}"></td>
-				  		<td><input type="text" class="iDireccion" maxlength="255" value="${uni.direccion}"></td>
-				  		<td><input type="text" class="iLocalidad" maxlength="255" value="${uni.localidad}"></td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value="${uni.nombre}"></td>
+				  		<td><input type="text" class="iDireccion form-control form-input" maxlength="255" value="${uni.direccion}"></td>
+				  		<td><input type="text" class="iLocalidad form-control form-input" maxlength="255" value="${uni.localidad}"></td>
 				  		<td>
-					  		<select class="ddRegion" name="uni_region">
+					  		<select class="ddRegion form-control" name="uni_region">
 					  			<c:forEach items="${listaRegiones}" var="region">
 					  				<option value="${region.id}" ${region.id == uni.region ? 'selected="selected"' : ''}>${region.nombre}</option>
 					  			</c:forEach>

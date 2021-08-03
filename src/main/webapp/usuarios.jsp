@@ -9,51 +9,56 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/usuarios.js"></script>
+    <link rel="stylesheet" href="css/styles_home.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 </head>
 <body>
 	<div class="container">
 	  <div class="row">
-	    <div class="col-2">
-	    	<div id="navegador">
-	    		<ul class="pt-3 pe-4">
-	    			<li><a href="./logout">Logout</a> </li>
-					<li><a href="./juegos">Juegos</a></li>
-					<li><a href="./alumnos">Alumnos</a></li>
-					<li><a href="./cuest_curso">Cuestionarios</a></li>
-					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones_pais">Regiones</a></li>
-					<li><a href="./estadisticas">Estadisticas</a></li>
-					<li><a href="./anhos">Anhos</a></li>
-					<li><a href="./universidades">Universidades</a></li>
-					<li><a href="./usuarios">Usuarios</a></li>
-				</ul>
-				<button type="button" class="mt-5 add_usu">Añadir usuario</button>
-	    	</div>
+	    <div class="col-1">
+	    	<div class="sidenav">
+				<a href="./juegos">Juegos</a>
+				<a href="./alumnos">Alumnos</a>
+				<a href="./cuest_curso">Cuestionarios</a>
+				<a href="./paises">Paises</a>
+				<a href="./regiones_pais">Regiones</a>
+				<a href="./estadisticas">Estadisticas</a>
+				<a href="./anhos">Años</a>
+				<a href="./universidades">Universidades</a>
+				<a href="./usuarios">Usuarios</a>
+				<a href="./colegios">Colegios</a>
+				<a href="./practicas">Practicas</a>
+				<br>
+				<a href="./logout">Salir</a> 
+			</div>
 	    </div>
-	    <div class="col-10">
+	    <div class="col-2 mt-3">
+	    	<button type="button" class="mt-5 add_usu btn btn-primary">Añadir usuario</button>
+	    </div>
+	    <div class="col-9">
 	    	<div style="text-align: center">
-			    <table>
-				  <tr>
+			    <table class="table">
+				  <tr class="bg-primary text-light">
 				  	<th class="d-none">ID</th>
-				    <th>Email</th>
-				    <th>Perfil</th>
-				    <th>Universidad</th>
-				    <th>Activo</th>
-				    <th>Idioma</th>
+				    <th scope="col">Email</th>
+				    <th scope="col">Perfil</th>
+				    <th scope="col">Universidad</th>
+				    <th scope="col">Activo</th>
+				    <th scope="col">Idioma</th>
+				    <th scope="col">Borrar</th>
 				  </tr>
 				  <tr class="d-none copia">
 				  		<td class="d-none colId"></td>
-				  		<td><input type="text" class="iEmail" maxlength="255" value=""></td>
+				  		<td><input type="text" class="iEmail form-control form-input" maxlength="255" value=""></td>
 				  		<td>
-					  		<select class="ddPerfil" name="usuario_p">
+					  		<select class="ddPerfil form-control" name="usuario_p">
 							    <c:forEach var="perfil" items="${listaPerfiles}">
 							        <option value="${perfil.id}" ${perfil.id == 3 ? 'selected="selected"' : ''}>${perfil.nombre}</option>
 							    </c:forEach>
 							</select>
 						</td>
 						<td>
-					  		<select class="ddUni" name="usuario_u">
+					  		<select class="ddUni form-control" name="usuario_u">
 							    <c:forEach var="universidad" items="${listaUniversidades}">
 							        <option value="${universidad.id}" ${universidad.id == 1 ? 'selected="selected"' : ''}>${universidad.nombre}</option>
 							    </c:forEach>
@@ -61,7 +66,7 @@
 						</td>
 						<td><input type="checkbox" class="box_act" name="activo" value="act"></td>
 						<td>
-					  		<select class="ddIdioma" name="usuario_i">
+					  		<select class="ddIdioma form-control" name="usuario_i">
 							    <c:forEach var="idioma" items="${listaIdiomas}">
 							        <option value="${idioma.id}" ${idioma.id == 1 ? 'selected="selected"' : ''}>${idioma.nombre}</option>
 							    </c:forEach>
@@ -77,16 +82,16 @@
 				  <c:forEach items="${listaUsuarios}" var="usuario">
 				  	<tr>
 				  		<td class="d-none colId">${usuario.id}</td>
-				  		<td><input type="text" class="iEmail" maxlength="255" value="${usuario.email}"></td>
+				  		<td><input type="text" class="iEmail form-control form-input" maxlength="255" value="${usuario.email}"></td>
 				  		<td>
-					  		<select class="ddPerfil" name="usuario_p">
+					  		<select class="ddPerfil form-control" name="usuario_p">
 							    <c:forEach var="perfil" items="${listaPerfiles}">
 							        <option value="${perfil.id}" ${perfil.id == usuario.perfil ? 'selected="selected"' : ''}>${perfil.nombre}</option>
 							    </c:forEach>
 							</select>
 						</td>
 						<td>
-					  		<select class="ddUni" name="usuario_u">
+					  		<select class="ddUni form-control" name="usuario_u">
 							    <c:forEach var="universidad" items="${listaUniversidades}">
 							        <option value="${universidad.id}" ${universidad.id == usuario.universidad ? 'selected="selected"' : ''}>${universidad.nombre}</option>
 							    </c:forEach>
@@ -94,7 +99,7 @@
 						</td>
 						<td><input type="checkbox" class="box_act" name="activo" value="act" ${usuario.activo == true ? 'checked' : ''}></td>
 						<td>
-					  		<select class="ddIdioma" name="usuario_i">
+					  		<select class="ddIdioma form-control" name="usuario_i">
 							    <c:forEach var="idioma" items="${listaIdiomas}">
 							        <option value="${idioma.id}" ${idioma.id == usuario.id ? 'selected="selected"' : ''}>${idioma.nombre}</option>
 							    </c:forEach>

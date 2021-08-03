@@ -27,6 +27,7 @@
 			<a href="./usuarios">Usuarios</a>
 			<a href="./colegios">Colegios</a>
 			<a href="./practicas">Practicas</a>
+			<a href="./perfiles">Perfiles</a>
 			<br>
 			<a href="./logout">Salir</a> 
 		</div>

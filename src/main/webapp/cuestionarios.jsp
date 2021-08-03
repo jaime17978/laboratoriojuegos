@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/cuestionarios.js"></script>
+    <link rel="stylesheet" href="css/styles_home.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
     <script>
     var list = ${listaNombres}
@@ -38,8 +39,8 @@
 	    
     $(document).ready(function() {
     	<c:forEach items="${listaCuestionarios}" var="cuest">
-    		var col = $('.idAlumno:contains(${cuest.idAlumno})').eq(0).closest("td").index();
-    		var row = $('.idJuego:contains(${cuest.idJuego})').eq(0).closest("tr").index();
+    		var col = $('.idAlumno').filter(function(){ return $(this).html() === '${cuest.idAlumno}';}).eq(0).closest("td").index();
+    		var row = $('.idJuego').filter(function(){ return $(this).html() === '${cuest.idJuego}';}).eq(0).closest("tr").index();
     		
     		if(typeof col !== "undefined" && typeof row !== "undefined")
     		{
@@ -53,27 +54,27 @@
     </script>
 </head>
 <body>
+	<div class="sidenav">
+		<a href="./juegos">Juegos</a>
+		<a href="./alumnos">Alumnos</a>
+		<a href="./cuest_curso">Cuestionarios</a>
+		<a href="./paises">Paises</a>
+		<a href="./regiones_pais">Regiones</a>
+		<a href="./estadisticas">Estadisticas</a>
+		<a href="./anhos">Años</a>
+		<a href="./universidades">Universidades</a>
+		<a href="./usuarios">Usuarios</a>
+		<a href="./colegios">Colegios</a>
+		<a href="./practicas">Practicas</a>
+		<br>
+		<a href="./logout">Salir</a> 
+	</div>
 	<div class="container">
 	  <div class="row">
-	    <div class="col-2">
-	    	<div id="navegador">
-	    		<ul class="pt-3 pe-4">
-	    			<li><a href="./logout">Logout</a> </li>
-					<li><a href="./juegos">Juegos</a></li>
-					<li><a href="./alumnos">Alumnos</a></li>
-					<li><a href="./cuest_curso">Cuestionarios</a></li>
-					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones_pais">Regiones</a></li>
-					<li><a href="./estadisticas">Estadisticas</a></li>
-					<li><a href="./anhos">Anhos</a></li>
-					<li><a href="./universidades">Universidades</a></li>
-					<li><a href="./usuarios">Usuarios</a></li>
-				</ul>	
-				<button type="button" class="mt-5 add_cu">Añadir fila</button>
-	    	</div>
+	    <div class="col-2 mt-3">
+	    	<button type="button" class="mt-5 add_cu">Añadir fila</button>
 	    </div>
-	    
-	    <div class="col-10">
+	    <div class="col-8">
 	    	<div style="text-align: center">
 	    		<div class="juegoForm d-none">
 		    		<form class="py-4 fJuego">
@@ -89,41 +90,41 @@
 					 </form> 
 				 <button class="fBoton">Añadir juego</button>
 	    		</div>
-			    <table id="tablaCuest">
+			    <table id="table table-bordered">
 				  <tr>
-				  	<td class="invisible">-</td>
-				  	<td class="invisible">-</td>
-				  	<td class="invisible">-</td>
+				  	<td class="d-none">-</td>
+				  	<td class="d-none">-</td>
+				  	<td class="d-none">-</td>
 				  	<c:forEach items="${listaAlumnos}" var="alumno">
-				  		<td class="idAlumno">${alumno.id}</td>
+				  		<td class="idAlumno d-none">${alumno.id}</td>
 				  	</c:forEach>
 				  </tr> 
-				  <tr>
+				  <tr class="bg-primary text-light">
+				  	<td class="d-none">-</td>
 				  	<td class="invisible">-</td>
-				  	<td class="invisible">-</td>
-				  	<td class="">Nombre</td>
+				  	<td class="" scope="col">Nombre</td>
 				  	<c:forEach items="${listaAlumnos}" var="alumno">
 				  		<td>${alumno.nombre}</td>	
 				  	</c:forEach>
 				  </tr>
-				  <tr>
+				  <tr class="bg-primary text-light">
+				  	<td class="d-none">-</td>
 				  	<td class="invisible">-</td>
-				  	<td class="invisible">-</td>
-				  	<td class="">Genero</td>
+				  	<td class="" scope="col">Genero</td>
 				  	<c:forEach items="${listaAlumnos}" var="alumno">
 				  		<td>${alumno.genero}</td>	
 				  	</c:forEach>
 				  </tr>
-				  <tr>
+				  <tr class="bg-primary text-light">
+				  	<td class="d-none">-</td>
 				  	<td class="invisible">-</td>
-				  	<td class="invisible">-</td>
-				  	<td class="">Edad</td>
+				  	<td class="" scope="col">Edad</td>
 				  	<c:forEach items="${listaAlumnos}" var="alumno">
 				  		<td>${alumno.edad}</td>	
 				  	</c:forEach>
 				  </tr>
 				  <tr class="copia d-none">	
-				  	<td class="idJuego">0</td>
+				  	<td class="idJuego d-none">0</td>
 				  	<td>
 						<button type="button" class="del_cu btn btn-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 							<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -147,7 +148,7 @@
 				  </tr>
 				  <c:forEach items="${setJuegos}" var="juego">
 					  <tr>
-						 <td class="idJuego">${juego.id}</td>
+						 <td class="idJuego d-none">${juego.id}</td>
 						 <td>
 							<button type="button" class="del_cu btn btn-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 								<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -155,7 +156,7 @@
 								</svg> 
 							</button>					  	  
 						</td>
-						 <td class="nJuego">${juego.name}</td>
+						 <td class="nJuego bg-primary text-light">${juego.name}</td>
 						  <c:forEach items="${listaAlumnos}" var="alumno">
 						  	<td class="cuestionario">
 						  		<span>

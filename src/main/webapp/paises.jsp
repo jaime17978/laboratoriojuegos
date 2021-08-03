@@ -9,38 +9,41 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/paises.js"></script>
+    <link rel="stylesheet" href="css/styles_home.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 </head>
 <body>
+	<div class="sidenav">
+		<a href="./juegos">Juegos</a>
+		<a href="./alumnos">Alumnos</a>
+		<a href="./cuest_curso">Cuestionarios</a>
+		<a href="./paises">Paises</a>
+		<a href="./regiones_pais">Regiones</a>
+		<a href="./estadisticas">Estadisticas</a>
+		<a href="./anhos">Años</a>
+		<a href="./universidades">Universidades</a>
+		<a href="./usuarios">Usuarios</a>
+		<a href="./colegios">Colegios</a>
+		<a href="./practicas">Practicas</a>
+		<br>
+		<a href="./logout">Salir</a> 
+	</div>
 	<div class="container">
 	  <div class="row">
 	    <div class="col-2">
-	    	<div id="navegador">
-	    		<ul class="pt-3 pe-4">
-	    			<li><a href="./logout">Logout</a> </li>
-					<li><a href="./juegos">Juegos</a></li>
-					<li><a href="./alumnos">Alumnos</a></li>
-					<li><a href="./cuest_curso">Cuestionarios</a></li>
-					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones_pais">Regiones</a></li>
-					<li><a href="./estadisticas">Estadisticas</a></li>
-					<li><a href="./anhos">Anhos</a></li>
-					<li><a href="./universidades">Universidades</a></li>
-					<li><a href="./usuarios">Usuarios</a></li>
-				</ul>
-				<button type="button" class="mt-5 add_pa">Añadir pais</button>
-	    	</div>
+			<button type="button" class="add_pa btn btn-primary mt-2">Añadir pais</button>
 	    </div>
-	    <div class="col-10">
+	    <div class="col-8">
 	    	<div style="text-align: center">
-			    <table>
-				  <tr>
-				  	<th>ID</th>
-				    <th>Nombre</th>
+			    <table class="table">
+				  <tr class="bg-primary text-light">
+				  	<th scope="col">ID</th>
+				    <th scope="col">Nombre</th>
+				    <th scope="col">Borrar</th>
 				  </tr>
 				  <tr class="d-none copia">
-				  		<td><input type="text" class="iID" maxlength="255" value="" oldvalue=""></td>
-				  		<td><input type="text" class="iNombre" maxlength="255" value=""></td>
+				  		<td><input type="text" class="iID form-control form-input" maxlength="255" value="" oldvalue=""></td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value=""></td>
 						<td>
 							<button type="button" class="del_pa btn btn-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 							  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -50,8 +53,8 @@
 				  	</tr>
 				  <c:forEach items="${listaPaises}" var="pais">
 				  	<tr>
-				  		<td><input type="text" class="iID" maxlength="255" value="${pais.id}" oldvalue=""></td>
-				  		<td><input type="text" class="iNombre" maxlength="255" value="${pais.nombre}"></td>
+				  		<td><input type="text" class="iID form-control form-input" maxlength="255" value="${pais.id}" oldvalue=""></td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value="${pais.nombre}"></td>
 						<td>
 							<button type="button" class="del_pa btn btn-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 							  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>

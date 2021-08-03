@@ -9,40 +9,43 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/alumnos.js"></script>
+    <link rel="stylesheet" href="css/styles_home.css">
+    <link rel="stylesheet" href="css/styles_juegos.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 </head>
 <body>
 	<div class="container">
 	  <div class="row">
 	    <div class="col-2">
-	    	<div id="navegador">
-	    		<ul class="pt-3 pe-4">
-	    			<li><a href="./logout">Logout</a> </li>
-					<li><a href="./juegos">Juegos</a></li>
-					<li><a href="./alumnos">Alumnos</a></li>
-					<li><a href="./cuest_curso">Cuestionarios</a></li>
-					<li><a href="./paises">Paises</a></li>
-					<li><a href="./regiones_pais">Regiones</a></li>
-					<li><a href="./estadisticas">Estadisticas</a></li>
-					<li><a href="./anhos">Anhos</a></li>
-					<li><a href="./universidades">Universidades</a></li>
-					<li><a href="./usuarios">Usuarios</a></li>
-				</ul>
-	    	</div>
+	    	<div class="sidenav">
+				<a href="./juegos">Juegos</a>
+				<a href="./alumnos">Alumnos</a>
+				<a href="./cuest_curso">Cuestionarios</a>
+				<a href="./paises">Paises</a>
+				<a href="./regiones_pais">Regiones</a>
+				<a href="./estadisticas">Estadisticas</a>
+				<a href="./anhos">Años</a>
+				<a href="./universidades">Universidades</a>
+				<a href="./usuarios">Usuarios</a>
+				<a href="./colegios">Colegios</a>
+				<a href="./practicas">Practicas</a>
+				<br>
+				<a href="./logout">Salir</a> 
+			</div>
 	    </div>
 	    <div class="col-10">
-	    	<div style="text-align: center" class="mt-4">
-	    		
-	    		<form action="regiones_pais" method="post">
-	    			<label for="regiones_pais">Pais</label>
+	    	<div class="mx-auto cont-juegos">
+	    		<form action="regiones_pais" method="post" class="form-group">
+	    			<h5 class="texto-form-juegos mb-4 text-center">Selecciona un pais para editar sus regiones</h5> 
+	    			<label for="regiones_pais" class="texto-form-juegos">Pais</label>
 	    			<br>
-				    <select class="paises" name="regiones_pais">
+				    <select class="paises form-control" name="regiones_pais">
 						<c:forEach var="pais" items="${listaPaises}">
 							<option value="${pais.id}" ${pais.id == "ad" ? 'selected="selected"' : ''}>${pais.nombre}</option>
 						</c:forEach>
 					</select>
 				    <br><br>
-				    <button type="submit">Seleccionar pais</button>
+				    <button type="submit" class="btn btn-outline-light btn-juegos">Seleccionar pais</button>
 				 </form>
 				 
 	    		

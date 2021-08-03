@@ -4,11 +4,11 @@
 <html>
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Regiones</title>
+	<title>Perfiles</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/regiones.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/perfiles.js"></script>
     <link rel="stylesheet" href="css/styles_home.css">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 </head>
@@ -28,52 +28,41 @@
 				<a href="./usuarios">Usuarios</a>
 				<a href="./colegios">Colegios</a>
 				<a href="./practicas">Practicas</a>
+				<a href="./perfiles">Perfiles</a>
 				<br>
 				<a href="./logout">Salir</a> 
 			</div>
 	    </div>
 	    <div class="col-2">
-	    	<button type="button" class="mt-5 add_reg btn btn-primary">Añadir región</button>
+	    	<button type="button" class="mt-5 add_pr btn btn-primary">Añadir perfil</button>
 	    </div>
-	    <div class="col-8">
+	    <div class="col-5">
 	    	<div style="text-align: center">
 			    <table class="table">
 				  <tr class="bg-primary text-light">
-				  	<th scope="col">ID</th>
+				  	<th class="d-none">ID</th>
 				    <th scope="col">Nombre</th>
-				    <th scope="col">Pais</th>
+				    <th scope="col">Activo</th>
 				    <th scope="col">Borrar</th>
 				  </tr>
 				  <tr class="d-none copia">
-				  		<td><input type="text" class="iID form-control form-input" maxlength="255" value="" oldvalue=""></td>
+				  		<td class="d-none colId"></td>
 				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value=""></td>
-				  		<td>
-					  		<select class="ddPais form-control" name="region_p">
-							    <c:forEach var="pais" items="${listaPaises}">
-							        <option value="${pais.id}" ${pais.id == '??' ? 'selected="selected"' : ''}>${pais.nombre}</option>
-							    </c:forEach>
-							</select>
-						</td>
+				  		<td><input type="checkbox" class="box_act" name="activo" value="act"></td>
 						<td>
-							<button type="button" class="del_reg btn btn-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+							<button type="button" class="del_pr btn btn-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 							  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
 							  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
 							</svg> </button>
 						</td>	
 				  	</tr>
-				  <c:forEach items="${listaRegiones}" var="region">
+				  <c:forEach items="${listaPerfiles}" var="perfil">
 				  	<tr>
-				  		<td><input type="text" class="iID form-control form-input" maxlength="255" value="${region.id}" oldvalue=""></td>
-				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value="${region.nombre}"></td>
-				  		<td>
-					  		<select class="ddPais form-control" name="region_p">
-							    <c:forEach var="pais" items="${listaPaises}">
-							        <option value="${pais.id}" ${pais.id == region.pais ? 'selected="selected"' : ''}>${pais.nombre}</option>
-							    </c:forEach>
-							</select>
-						</td>
+				  		<td class="d-none colId">${perfil.id}</td>
+				  		<td><input type="text" class="iNombre form-control form-input" maxlength="255" value="${perfil.nombre}"></td>
+				  		<td><input type="checkbox" class="box_act" name="activo" value="act" ${perfil.activo == true ? 'checked' : ''}></td>
 						<td>
-							<button type="button" class="del_reg btn btn-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+							<button type="button" class="del_pr btn btn-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
 							  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
 							  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
 							</svg> </button>
