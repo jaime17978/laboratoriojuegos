@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `juegos_investigador` (
   `fechaalta` datetime NOT NULL,
   `fechabaja` datetime DEFAULT NULL,
   `fechamodificacion` datetime DEFAULT NULL,
-  PRIMARY KEY (`nombrejuego`,`fkusuario`,`fkidioma`,`fechaalta`)
+  PRIMARY KEY (`nombrejuego`,`fkusuario`,`fkidioma`,`fechaalta`,`fkjuego`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='tabla de juegos de los investigadores donde realizan las sustituciones de los juegos que pueden estar repetidos por el nombre';
 
 -- --------------------------------------------------------
