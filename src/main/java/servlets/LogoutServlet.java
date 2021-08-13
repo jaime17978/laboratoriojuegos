@@ -31,7 +31,7 @@ public class LogoutServlet extends HttpServlet {
         if (session != null) {
             session.removeAttribute("user");
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/login.jsp");
             dispatcher.forward(request, response);
         }
     }

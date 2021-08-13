@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.CategoriaDAO;
+import dao.PermisosDAO;
 import dao.UniversidadDAO;
 import dao.UserDAO;
 import models.Categoria;
@@ -34,23 +35,26 @@ public class UsuariosServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UniversidadDAO daoUni = new UniversidadDAO();
 		UserDAO daoUsuarios = new UserDAO();
+		PermisosDAO daoPermisos = new PermisosDAO();
 		CategoriaDAO daoIdiomas = new CategoriaDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        
-        /**
-         * Se comprueba si el usuario tiene permiso para acceder a esta pagina. Si no es
-         * asi se le redirecciona a la pagina de error.
-         */
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
+        int idSim;
         
         try {
-            
+        	/**
+	         * Al ser una pagina a la que solo puede acceder un administrador
+	         * o desarrollador hay que comprobar los permisos del usuario.
+	         * Si el usuario no tiene permisos para entrar se le redirecciona
+	         * a la pagina de error. 
+	         */
+	        if (!daoPermisos.verificarPermisos(user.getPermissions(), 5)) {
+	        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
+	            
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+	            dispatcher.forward(request, response);
+	        }
+	        
         	/**
         	 * Mediante los diferentes DAO, se obtiene la informacion de universidades,
         	 * idiomas, perfiles y usuarios que necesitamos para mostrar en la pagina.
@@ -64,12 +68,26 @@ public class UsuariosServlet extends HttpServlet {
             List<Categoria> listaPerfiles = daoIdiomas.perfilesBD();
             request.setAttribute("listaPerfiles", listaPerfiles);
             
-            List<User> listaUsuarios = daoUsuarios.usuariosBD();
-            request.setAttribute("listaUsuarios", listaUsuarios);
+            if (user.getPermissions() == 2) {
+                List<User> listaUsuarios = daoUsuarios.usuariosBD(user.getId());
+                request.setAttribute("listaUsuarios", listaUsuarios);
+            	
+                idSim = user.getSimulado();
+                if (idSim != -1) {
+                	request.setAttribute("idSimulado", idSim);
+                }
+                
+            	RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/usuarios_profesor.jsp");
+                dispatcher.forward(request, response);
+	        }
+            else {
+            	List<User> listaUsuarios = daoUsuarios.usuariosBD();
+                request.setAttribute("listaUsuarios", listaUsuarios);
+
+            	RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/usuarios.jsp");
+                dispatcher.forward(request, response);
+            }
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("usuarios.jsp");
-            dispatcher.forward(request, response);
- 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new ServletException(e);
@@ -149,10 +167,16 @@ public class UsuariosServlet extends HttpServlet {
             	   
                case "create":
             	   idNueva = dao.crearUsuario(user.getId());  	
-            	   System.out.println(idNueva);
+            	   
             	   response.setContentType("text/plain");
                    response.setCharacterEncoding("UTF-8"); 
                    response.getWriter().write(Integer.toString(idNueva));
+            	   break;
+               
+               case "simulate":
+            	   id = Integer.parseInt(request.getParameter("id"));
+            	   user.setSimulado(id);
+            	   session.setAttribute("user", user);
             	   break;
                
                default : 
@@ -160,7 +184,7 @@ public class UsuariosServlet extends HttpServlet {
             }
         	
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return;
 		}
         

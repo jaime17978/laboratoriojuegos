@@ -5,10 +5,37 @@
   padding-left: 100px;
   padding-right: 100px;
   padding-bottom: 50px;
-  background-color: white;
   position: relative;
   width: 40%;
   margin-left: 30%;
+  background-color: #045de9;
+  background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);	
+}
+
+.cont-juegos-inv{
+  border-radius: 22.5px;
+  margin-top: 200px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  position: relative;
+  width: 40%;
+  margin-left: 30%;
+  background-color: #045de9;
+  background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);	
+}
+
+.cont-perfiles-menus{
+  border-radius: 22.5px;
+  margin-top: 200px;
+  padding-top: 50px;
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-bottom: 50px;
+  background-color: white;
+  position: relative;
+  width: 100%;
   background-color: #045de9;
   background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);	
 }

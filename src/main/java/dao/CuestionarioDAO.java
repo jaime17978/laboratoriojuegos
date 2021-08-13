@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +14,7 @@ import models.Cuestionario;
  * Clase que contiene los metodos que acceden a la tabla de cuestionarios
  * (alumnos_juegos) de la base de datos.
  */
-public class CuestionarioDAO {
+public class CuestionarioDAO extends BaseDAO{
 	
 	/**
 	 * Devuelve todos los cuestionarios de un usuario para un curso determinado.
@@ -27,9 +26,9 @@ public class CuestionarioDAO {
 	 */
 	public List<Cuestionario> cuestionariosBD(int id, int curso) throws ClassNotFoundException, SQLException {
 		 List<Cuestionario> listCuest = new ArrayList<Cuestionario>();
-	        Class.forName("com.mysql.cj.jdbc.Driver");  
+		 	
 	        //Iniciamos la conexion con la base de datos.
-	        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+	        try (Connection connection = getConnection()) {
 	            
 	        	/**
 	    		 * Creamos la consulta e introducimos los datos de los parametros.
@@ -82,9 +81,9 @@ public class CuestionarioDAO {
 	 */
 	public void creaModificaCuest(int id, int idAlumno, int idJuego, boolean favorito, boolean barrio, boolean colegio, int idioma) throws ClassNotFoundException, SQLException {
 		
-		Class.forName("com.mysql.cj.jdbc.Driver");  
+		  
 		//Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
         	/**
     		 * Creamos la consulta de busqueda de cuestionarios e introducimos los datos de los parametros.
     		 */
@@ -105,7 +104,7 @@ public class CuestionarioDAO {
             	stmtUpdate.setInt(5, id);
             	stmtUpdate.setInt(6, idAlumno);
             	stmtUpdate.setInt(7, idJuego);
-            	System.out.println(stmtUpdate);
+            	
                 stmtUpdate.executeUpdate();
             }
             
@@ -123,8 +122,6 @@ public class CuestionarioDAO {
                 	fkcurso = resultAlumno.getInt("fkcurso");
                 }
                 else {
-                	//Excepcion aqui
-                	System.out.println("No existe alumno");
                 	return;
                 }
                 
@@ -139,8 +136,6 @@ public class CuestionarioDAO {
                 	fkcolegio = resultUsuario.getInt("fkcolegio"); 
                 }
                 else {
-                	//Excepcion aqui
-                	System.out.println("No existe usuario");
                 	return;
                 }
                 
@@ -159,7 +154,7 @@ public class CuestionarioDAO {
                 stmtCreate.setInt(9, id);
                 stmtCreate.setInt(10, idioma);
                 stmtCreate.setTimestamp(11, date);
-                System.out.println(stmtCreate);
+                
                 stmtCreate.executeUpdate();
             }
              
@@ -180,9 +175,9 @@ public class CuestionarioDAO {
 
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 		//Iniciamos la conexion con la base de datos.
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.
 		 */

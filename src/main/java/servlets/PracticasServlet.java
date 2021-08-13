@@ -15,13 +15,12 @@ import javax.servlet.http.HttpSession;
 import dao.AnhoDAO;
 import dao.CategoriaDAO;
 import dao.ColegioDAO;
+import dao.PermisosDAO;
 import dao.PracticaDAO;
-import dao.RegionDAO;
 import dao.UserDAO;
 import models.Categoria;
 import models.Colegio;
 import models.Practica;
-import models.Region;
 import models.User;
 /**
  * Servlet de manejo de las peticiones enviadas a la url de practicas.
@@ -41,21 +40,26 @@ public class PracticasServlet extends HttpServlet {
 		ColegioDAO daoColegio = new ColegioDAO();
 		UserDAO daoUsuario = new UserDAO();
 		AnhoDAO daoAnho = new AnhoDAO();
+		PermisosDAO daoPermisos = new PermisosDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        /**
-         * Dado que la pagina de practicas es solo para administrador/desarrollador
-         * es necesario comprobar los permisos. Si el usuario no tiene permisos se le
-         * redirecciona a la pagina de error.
-         */
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
+
         
         try {
+        	
+        	/**
+	         * Al ser una pagina a la que solo puede acceder un administrador
+	         * o desarrollador hay que comprobar los permisos del usuario.
+	         * Si el usuario no tiene permisos para entrar se le redirecciona
+	         * a la pagina de error. 
+	         */
+	        if (!daoPermisos.verificarPermisos(user.getPermissions(), 6)) {
+	        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
+	            
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+	            dispatcher.forward(request, response);
+	        }
+        	
             /**
              * Mediante los diferentes DAO se accede a la base de datos para
              * obtener las practicas, colegios, tipos de actividad y años que hacen
@@ -76,7 +80,7 @@ public class PracticasServlet extends HttpServlet {
             List<Categoria> listaAnhos = daoAnho.anhosBD();
             request.setAttribute("listaAnhos", listaAnhos);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("practicas.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/practicas.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {
@@ -166,7 +170,7 @@ public class PracticasServlet extends HttpServlet {
             }
         	
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.print(e);
+			e.printStackTrace();
 			return;
 		}
         

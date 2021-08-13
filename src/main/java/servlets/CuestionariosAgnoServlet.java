@@ -28,7 +28,7 @@ import models.Juego;
 import models.User;
 
 /**
- * Clse servlet que maneja las peticiones de la pagina de seleccion de curso
+ * Clase servlet que maneja las peticiones de la pagina de seleccion de curso
  * de la pantalla de cuestionarios.
  * 
  * Antes de que un usuario pueda acceder a los cuestionarios debe seleccionar el curso
@@ -48,7 +48,6 @@ public class CuestionariosAgnoServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CategoriaDAO dao = new CategoriaDAO();
-		AlumnoDAO daoAlumnos = new AlumnoDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
@@ -61,7 +60,7 @@ public class CuestionariosAgnoServlet extends HttpServlet {
             request.setAttribute("listaCursos", listaCursos);
             
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("cuest_curso.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/cuest_curso.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {
@@ -121,7 +120,7 @@ public class CuestionariosAgnoServlet extends HttpServlet {
             
             List<Juego> listaJuegosCuest = new ArrayList<Juego>();
             for (Cuestionario c : listaCuest) {
-            	Juego jAux = new Juego(c.getIdJuego(),c.getNombreJuego());
+            	Juego jAux = new Juego(c.getIdJuego(),c.getNombreJuego(),1);
             	listaJuegosCuest.add(jAux);
             }
             
@@ -129,7 +128,7 @@ public class CuestionariosAgnoServlet extends HttpServlet {
             
             request.setAttribute("setJuegos", setJuegos);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("cuestionarios.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/cuestionarios.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {

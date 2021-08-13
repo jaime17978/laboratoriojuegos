@@ -9,15 +9,18 @@ import java.util.Objects;
 public class Juego {
 	private int id;
     private String name;
+    private int type;
     
     /**
      * Constructor de la clase juego.
      * @param i ID del juego.
      * @param n Nombre del juego.
+     * @param t tipo de actividad del juego.
      */
-    public Juego(int i, String n) {
+    public Juego(int i, String n, int t) {
 		id = i;
 		name = n;
+		type = t;
 	}
 
     /**
@@ -36,6 +39,22 @@ public class Juego {
         id = i;
     }
 
+    /**
+     * Metodo get para el tipo.
+     * @return tipo del juego.
+     */
+	public int getType(){
+        return type;
+    }
+
+	/**
+	 * Metodo set para el tipo.
+	 * @param t tipo nuevo del juego.
+	 */
+    public void setType(int t){
+        type = t;
+    }
+    
     /**
      * Metodo get para el nombre.
      * @return Nombre del juego.

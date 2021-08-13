@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +15,7 @@ import models.Colegio;
  * Clase que contiene los metodos que acceden a la tabla
  * colegios de la base de datos.
  */
-public class ColegioDAO {
+public class ColegioDAO extends BaseDAO{
 
 	/**
 	 * Devuelve una lista con todos los colegios (no dados de baja) de la base de datos.
@@ -26,9 +25,9 @@ public class ColegioDAO {
 	 */
 	public List<Colegio> colegiosBD() throws SQLException, ClassNotFoundException {
         List<Colegio> listaColegios = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             
         	String sql = "SELECT * FROM colegios WHERE fechabaja is NULL";
             Statement statement = connection.createStatement();
@@ -68,11 +67,11 @@ public class ColegioDAO {
 	 * @throws SQLException
 	 */
 	public void cambioNombre(int id, String nombre, int id_user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
         //Iniciamos la conexion con la base de datos.
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.
 		 */
@@ -96,11 +95,11 @@ public class ColegioDAO {
 	 * @throws SQLException
 	 */
 	public void cambioDireccion(int id, String direccion, int id_user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
         //Iniciamos la conexion con la base de datos.
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.
 		 */
@@ -124,11 +123,11 @@ public class ColegioDAO {
 	 * @throws SQLException
 	 */
 	public void cambioLocalidad(int id, String localidad, int id_user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
         //Iniciamos la conexion con la base de datos.
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.
 		 */
@@ -152,11 +151,11 @@ public class ColegioDAO {
 	 * @throws SQLException
 	 */
 	public void cambioRegion(int id, String region, int id_user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
         //Iniciamos la conexion con la base de datos.        
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.
 		 */
@@ -180,11 +179,11 @@ public class ColegioDAO {
 	 * @throws SQLException
 	 */
 	public void cambioTipo(int id, String tipo, int id_user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
         //Iniciamos la conexion con la base de datos.
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.
 		 */
@@ -208,11 +207,11 @@ public class ColegioDAO {
 	 * @throws SQLException
 	 */
 	public void cambioCodigoPostal(int id, int cp, int id_user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
         //Iniciamos la conexion con la base de datos.
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.
 		 */
@@ -235,11 +234,11 @@ public class ColegioDAO {
 	 * @throws SQLException
 	 */
 	public void borrarColegio(int id, int id_user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
         //Iniciamos la conexion con la base de datos.
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.
 		 */
@@ -261,11 +260,11 @@ public class ColegioDAO {
 	 * @throws SQLException
 	 */
 	public int crearColegio(int userId, int userIdioma) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
         //Iniciamos la conexion con la base de datos.
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		int id = -1;  
 		/**
 		 * Creamos la consulta e introducimos los datos de los parametros.

@@ -12,14 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.CategoriaDAO;
-import dao.PaisDAO;
 import dao.PerfilDAO;
-import dao.UniversidadDAO;
-import dao.UserDAO;
-import models.Categoria;
+import dao.PermisosDAO;
 import models.Perfil;
-import models.Universidad;
 import models.User;
 
 /**
@@ -38,28 +33,31 @@ public class PerfilesServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PerfilDAO daoPerfil = new PerfilDAO();
 		HttpSession session = request.getSession();
+		PermisosDAO daoPermisos = new PermisosDAO();
         User user = (User) session.getAttribute("user");
-        
-        /**
-         * Se comprueba si el usuario tiene permiso para acceder a esta pagina. Si no es
-         * asi se le redirecciona a la pagina de error.
-         */
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
         
         try {
             
+        	/**
+	         * Al ser una pagina a la que solo puede acceder un administrador
+	         * o desarrollador hay que comprobar los permisos del usuario.
+	         * Si el usuario no tiene permisos para entrar se le redirecciona
+	         * a la pagina de error. 
+	         */
+	        if (!daoPermisos.verificarPermisos(user.getPermissions(), 1)) {
+	        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
+	            
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+	            dispatcher.forward(request, response);
+	        }
+        	
         	/**
         	 * Mediante el DAO, obtenemos la informacion de la tabla perfiles
         	 */
             List<Perfil> listaPerfiles = daoPerfil.perfilesBD();
             request.setAttribute("listaPerfiles", listaPerfiles);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("perfiles.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/perfiles.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {

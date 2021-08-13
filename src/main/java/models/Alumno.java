@@ -21,7 +21,7 @@ public class Alumno {
 	 * @param genero Genero del alumno (niño/niña).
 	 * @param edad Edad del alumno.
 	 * @param idioma Foreign key del idioma del alumno.
-	 */
+	 */ 
 	public Alumno(int id, String nombre, int curso, String genero, int edad, int idioma) {
         super();
         this.id = id;

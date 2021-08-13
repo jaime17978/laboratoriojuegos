@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.PermisosDAO;
 import dao.RegionDAO;
 import dao.UniversidadDAO;
 import models.Region;
@@ -37,24 +38,25 @@ public class UniversidadesServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UniversidadDAO daoUni = new UniversidadDAO();
+		PermisosDAO daoPermisos = new PermisosDAO();
 		RegionDAO daoRegion = new RegionDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
-        /**
-         * Al ser una pagina a la que solo puede acceder un administrador
-         * o desarrollador hay que comprobar los permisos del usuario.
-         * Si el usuario no tiene permisos para entrar se le redirecciona
-         * a la pagina de error. 
-         */
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
-        
         try {
+        	/**
+	         * Al ser una pagina a la que solo puede acceder un administrador
+	         * o desarrollador hay que comprobar los permisos del usuario.
+	         * Si el usuario no tiene permisos para entrar se le redirecciona
+	         * a la pagina de error. 
+	         */
+	        if (!daoPermisos.verificarPermisos(user.getPermissions(), 4)) {
+	        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
+	            
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+	            dispatcher.forward(request, response);
+	        }
+        	
             /**
              * Se obtiene la informacion de la base de datos mediante los
              * DAO y se le pasa esta informacion a la pagina.
@@ -65,7 +67,7 @@ public class UniversidadesServlet extends HttpServlet {
             List<Region> listaRegiones = daoRegion.regionesBD();
             request.setAttribute("listaRegiones", listaRegiones);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("universidades.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/universidades.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {

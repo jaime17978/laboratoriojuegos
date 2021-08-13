@@ -1,16 +1,17 @@
 /*Adrian: ¿Para sumar el número total de niños y niñas se pueden sumar los dos valores de esta consulta?
 */
 INSERT INTO `admin_juegos`.`estadisticas`
-(`nombre_estadistica`,
-`descripción`,
+(`nombre`,
+`descripcion`,
 `valor`,
+`fkcurso`,
 `fkusuario`,
 `fkidioma`,
 `fechaalta`,
 `fechamodificacion`,
 `fechabaja`)
-SELECT 'Número de niños y niñas por curso'as nombre_estadistica, ev.genero as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
-FROM (select  a.genero as genero, count(*) as numero
+SELECT 'Número de niños y niñas por curso'as nombre, ev.genero as descripcion, ev.numero as valor, curso as fkcurso ,27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
+FROM (select  a.genero as genero, count(*) as numero, a.fkcurso as curso
 from alumnos_juegos aj
 inner join alumnos a on a.pkalumno = aj.fkalumno
 where aj.fkusuario = 27 and a.fkcurso = 5 
@@ -18,15 +19,15 @@ group by  a.genero
 order by 1 desc ) ev;
 /*******************************************************************************************************************************************************/
 INSERT INTO `admin_juegos`.`estadisticas`
-(`nombre_estadistica`,
-`descripción`,
+(`nombre`,
+`descripcion`,
 `valor`,
 `fkusuario`,
 `fkidioma`,
 `fechaalta`,
 `fechamodificacion`,
 `fechabaja`)
-SELECT 'Número de juegos por alumno 'as nombre_estadistica, ev.nombre_alumno as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
+SELECT 'Número de juegos por alumno 'as nombre, ev.nombre_alumno as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
 FROM (select  a.nombrealumno as nombre_alumno, count(*) as numero
 from alumnos_juegos aj
 inner join alumnos a on a.pkalumno = aj.fkalumno
@@ -35,15 +36,15 @@ group by  a.nombrealumno
 order by 1 desc ) ev;
 /*******************************************************************************************************************************************************/
 INSERT INTO `admin_juegos`.`estadisticas`
-(`nombre_estadistica`,
-`descripción`,
+(`nombre`,
+`descripcion`,
 `valor`,
 `fkusuario`,
 `fkidioma`,
 `fechaalta`,
 `fechamodificacion`,
 `fechabaja`)
-SELECT 'número de juegos mencioandos para las ñiñas' as nombre_estadistica, ev.nombrealumno as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
+SELECT 'número de juegos mencioandos para las ñiñas' as nombre, ev.nombrealumno as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
 FROM (select a.nombrealumno, count(*) as numero
 from alumnos_juegos aj
 inner join alumnos a on a.pkalumno = aj.fkalumno
@@ -52,32 +53,32 @@ group by a.genero, a.nombrealumno
 order by 2 desc) ev;
 /*******************************************************************************************************************************************************/
 INSERT INTO `admin_juegos`.`estadisticas`
-(`nombre_estadistica`,
-`descripción`,
+(`nombre`,
+`descripcion`,
 `valor`,
 `fkusuario`,
 `fkidioma`,
 `fechaalta`,
 `fechamodificacion`,
 `fechabaja`)
-SELECT 'número de juegos mencioandos para las ñiñas' as nombre_estadistica, ev.nombrealumno as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
+SELECT 'número de juegos mencioandos para los ñiños' as nombre, ev.nombrealumno as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
 FROM (select a.nombrealumno, count(*) as numero
 from alumnos_juegos aj
 inner join alumnos a on a.pkalumno = aj.fkalumno
-where aj.fkusuario = 27 and a.fkcurso = 5 and a.genero = 'niña'
+where aj.fkusuario = 27 and a.fkcurso = 5 and a.genero = 'niño'
 group by a.genero, a.nombrealumno  
 order by 2 desc) ev;
 /*******************************************************************************************************************************************************/
 INSERT INTO `admin_juegos`.`estadisticas`
-(`nombre_estadistica`,
-`descripción`,
+(`nombre`,
+`descripcion`,
 `valor`,
 `fkusuario`,
 `fkidioma`,
 `fechaalta`,
 `fechamodificacion`,
 `fechabaja`)
-SELECT 'número de juegos mencioandos para los niños' as nombre_estadistica, ev.nombrealumno as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
+SELECT 'número de juegos mencioandos para los niños' as nombre, ev.nombrealumno as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
 FROM (select a.nombrealumno, count(*) as numero
 from alumnos_juegos aj
 inner join alumnos a on a.pkalumno = aj.fkalumno
@@ -88,15 +89,15 @@ order by 2 desc) ev;
 /*juegos mas mencionados en el colegio (incluyendo los favoritos) incluye todos (sin genero) y si se agrupa por genero entonces lo mostramos para niños o niñas*/
 /*******************************************************************************************************************************************************/
 INSERT INTO `admin_juegos`.`estadisticas`
-(`nombre_estadistica`,
-`descripción`,
+(`nombre`,
+`descripcion`,
 `valor`,
 `fkusuario`,
 `fkidioma`,
 `fechaalta`,
 `fechamodificacion`,
 `fechabaja`)
-SELECT 'juegos mas mencionados en el colegio 'as nombre_estadistica, ev.nombre_juego as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
+SELECT 'juegos mas mencionados en el colegio 'as nombre, ev.nombre_juego as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
 FROM (select  j.nombrejuego as nombre_juego, count(*) as numero
 from alumnos_juegos aj
 inner join alumnos a on a.pkalumno = aj.fkalumno
@@ -106,15 +107,15 @@ group by j.nombrejuego
 order by 2 desc) ev ;
 /*******************************************************************************************************************************************************/
 INSERT INTO `admin_juegos`.`estadisticas`
-(`nombre_estadistica`,
-`descripción`,
+(`nombre`,
+`descripcion`,
 `valor`,
 `fkusuario`,
 `fkidioma`,
 `fechaalta`,
 `fechamodificacion`,
 `fechabaja`)
-SELECT 'Número de juegos mencioandos en el barrio'as nombre_estadistica, ev.nombrejuego as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
+SELECT 'Número de juegos mencioandos en el barrio'as nombre, ev.nombrejuego as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
 FROM (select  j.nombrejuego, count(*) as numero
 from alumnos_juegos aj
 inner join alumnos a on a.pkalumno = aj.fkalumno
@@ -124,15 +125,15 @@ group by j.nombrejuego
 order by 2 desc) ev;
 /*******************************************************************************************************************************************************/
 INSERT INTO `admin_juegos`.`estadisticas`
-(`nombre_estadistica`,
-`descripción`,
+(`nombre`,
+`descripcion`,
 `valor`,
 `fkusuario`,
 `fkidioma`,
 `fechaalta`,
 `fechamodificacion`,
 `fechabaja`)
-SELECT 'Listado de juegos favoritos'as nombre_estadistica, ev.nombrejuego as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
+SELECT 'Listado de juegos favoritos'as nombre, ev.nombrejuego as descripcion, ev.numero as valor, 27 as fkusuario, 1 as fkidioma, now() as fechaalta, null as fechamodificacion, null as fechabaja
 FROM (select  j.nombrejuego, count(*) as numero
 from alumnos_juegos aj
 inner join alumnos a on a.pkalumno = aj.fkalumno

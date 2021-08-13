@@ -12,7 +12,7 @@ import models.User;
  * Clase que contiene los metodos que acceden 
  * a la tabla "Usuarios" de la base de datos.
  */
-public class UserDAO {
+public class UserDAO extends BaseDAO{
 	
 	/**
 	 * Realiza el proceso de login para un usuario.
@@ -24,15 +24,15 @@ public class UserDAO {
 	 */
     public User userLogin(String email, String password) throws SQLException, ClassNotFoundException {
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+        
+        Connection con = getConnection();
 
         PreparedStatement stmt = con.prepareStatement("SELECT * from usuarios WHERE  email = ? AND activo = 1 AND fechabaja IS NULL");
         stmt.setString(1, email);
         ResultSet rs = stmt.executeQuery();
 
         User user = null;
-
+ 
         if(rs.next()) {
             user = new User();
             user.setId(rs.getInt("pkusuario"));
@@ -69,8 +69,8 @@ public class UserDAO {
      */
 	public User userChangePassword(String email, String password) throws ClassNotFoundException, SQLException {
 		
-		Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		
+        Connection con = getConnection();
 
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
         
@@ -101,6 +101,48 @@ public class UserDAO {
 	}
 	
 	/**
+	 * Devuelve los usuarios (no dados de baja) de un profesor de la base de datos.
+	 * @return Lista de objetos "User" con los resultados de la consulta.
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public List<User> usuariosBD(int id) throws SQLException, ClassNotFoundException {
+        List<User> listUsuarios = new ArrayList<>();
+          
+        //Iniciamos la conexion con la base de datos.
+        try (Connection connection = getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM usuarios WHERE fechabaja IS NULL AND fkusuario = ?");
+            stmt.setInt(1, id);
+            ResultSet result = stmt.executeQuery();
+            
+            User user = null;
+            /**
+             * Guardamos los resultados en objetos "User". Estos
+             * objetos se guardan en una lista que se devuelve al
+             * servlet.
+             */
+            while (result.next()) {
+            	
+            	user = new User();
+                user.setId(result.getInt("pkusuario"));
+                user.setEmail(result.getString("email"));
+                user.setPerfil(result.getInt("fkperfil"));
+                user.setUniversidad(result.getInt("fkuniversidad"));
+                user.setActivo(result.getBoolean("activo"));
+                user.setLanguage(result.getInt("fkidioma"));
+                     
+                listUsuarios.add(user);
+            }          
+             
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }      
+         
+        return listUsuarios;
+    }
+	
+	/**
 	 * Devuelve los usuarios no dados de baja de la base de datos.
 	 * @return Lista de objetos "User" con los resultados de la consulta.
 	 * @throws SQLException
@@ -108,9 +150,9 @@ public class UserDAO {
 	 */
 	public List<User> usuariosBD() throws SQLException, ClassNotFoundException {
         List<User> listUsuarios = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             String sql = "SELECT * FROM usuarios WHERE fechabaja IS NULL";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -151,10 +193,10 @@ public class UserDAO {
 	 * @throws SQLException
 	 */
 	public void cambioEmail(int id, String email, int id_editor) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE usuarios SET email=?, fechamodificacion=?, fkusuario=? WHERE pkusuario=?");
         stmt.setString(1, email);
         stmt.setTimestamp(2, date);
@@ -175,10 +217,10 @@ public class UserDAO {
 	 * @throws SQLException
 	 */
 	public void cambioPerfil(int id, int perfil, int id_editor) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE usuarios SET fkperfil=?, fechamodificacion=?, fkusuario=? WHERE pkusuario=?");
         stmt.setInt(1, perfil);
         stmt.setTimestamp(2, date);
@@ -199,10 +241,10 @@ public class UserDAO {
 	 * @throws SQLException
 	 */
 	public void cambioIdioma(int id, int idioma, int id_editor) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE usuarios SET fkidioma=?, fechamodificacion=?, fkusuario=? WHERE pkusuario=?");
         stmt.setInt(1, idioma);
         stmt.setTimestamp(2, date);
@@ -223,10 +265,10 @@ public class UserDAO {
 	 * @throws SQLException
 	 */
 	public void cambioUniversidad(int id, int universidad, int id_editor) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE usuarios SET fkuniversidad=?, fechamodificacion=?, fkusuario=? WHERE pkusuario=?");
         stmt.setInt(1, universidad);
         stmt.setTimestamp(2, date);
@@ -247,10 +289,10 @@ public class UserDAO {
 	 * @throws SQLException
 	 */
 	public void cambioActivo(int id, boolean activo, int id_editor) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE usuarios SET activo=?, fechamodificacion=?, fkusuario=? WHERE pkusuario=?");
         stmt.setBoolean(1, activo);
         stmt.setTimestamp(2, date);
@@ -270,10 +312,10 @@ public class UserDAO {
 	 * @throws SQLException
 	 */
 	public void borrarUsuario(int id, int id_editor) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE usuarios SET fechabaja=?, activo=0, fkusuario=? WHERE pkusuario=?");
         stmt.setTimestamp(1, date);
         stmt.setInt(2, id_editor);
@@ -292,10 +334,10 @@ public class UserDAO {
 	 * @throws SQLException
 	 */
 	public int crearUsuario(int userId) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		int id = -1;  
         PreparedStatement stmt = con.prepareStatement("INSERT INTO usuarios (email, password, fkperfil, fkuniversidad, activo, fkusuario, fkidioma, fechaalta) VALUES ('', '', 3, 1, 0, ?, 1, ?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setInt(1, userId);

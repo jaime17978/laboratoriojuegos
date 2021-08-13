@@ -1,7 +1,7 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,7 +15,7 @@ import models.User;
  * Clase que accede a diferentes tablas de la base de datos para realizar
  * consultas sencillas.
  */
-public class CategoriaDAO {
+public class CategoriaDAO extends BaseDAO{
     
 	/**
 	 * Accede a la tabla de cursos y devuelve una lista con la informacion de todos ellos.
@@ -25,9 +25,9 @@ public class CategoriaDAO {
 	 */
     public List<Categoria> cursosBD() throws SQLException, ClassNotFoundException {
         List<Categoria> listCategory = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             String sql = "SELECT * FROM cursos";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -63,9 +63,9 @@ public class CategoriaDAO {
      */
     public List<Categoria> cursosCuestBD(User u) throws SQLException, ClassNotFoundException {
         List<Categoria> listCategory = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
         	//Creamos la consulta y le pasamos los valores correspondientes del usuario pasado por parametro
             String sql = "SELECT DISTINCT fkcurso, nombrecurso from alumnos as a join admin_juegos.cursos as b where a.fkcurso = b.pkcurso and a.fkusuario = "+Integer.toString(u.getId());
             Statement statement = connection.createStatement();
@@ -102,10 +102,10 @@ public class CategoriaDAO {
      */
     public List<Categoria> cursosEstadisticasBD(int id) throws SQLException, ClassNotFoundException {
         List<Categoria> listCategory = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             String sql = "SELECT DISTINCT fkcurso, nombrecurso from admin_juegos.alumnos_juegos as a join admin_juegos.cursos as b where a.fkcurso = b.pkcurso and a.fkusuario ="+id;
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -131,6 +131,81 @@ public class CategoriaDAO {
     }
     
     /**
+     * Para un usuario, accede a las tablas de alumnos y cursos y devuelve todos los cursos.
+     * @return Lista de objetos "Categoria" con la informacion de los cursos.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public List<Categoria> cursosEstadisticasInvBD() throws SQLException, ClassNotFoundException {
+        List<Categoria> listCategory = new ArrayList<>();
+          
+        
+        //Iniciamos la conexion con la base de datos.
+        try (Connection connection = getConnection()) {
+            String sql = "SELECT pkcurso, nombrecurso from admin_juegos.cursos";
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            
+            /**
+             * Obtenemos los resultados de la consulta y los guardamos en objetos
+             * "Categoria". Estos objetos se introducen en una lista que se devuelve al servlet.
+             */
+            while (result.next()) {
+                int id_res = result.getInt("pkcurso");
+                String nombre = result.getString("nombrecurso");
+                Categoria category = new Categoria(id_res, nombre);
+                     
+                listCategory.add(category);
+            }          
+             
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }      
+         
+        return listCategory;
+    }
+    
+    /**
+     * Para un usuario investigador, devuelve los juegos que ha creado para reemplazar a otros.
+     * @param id Clave primaria del usuario para el que se extraen los juegos.
+     * @return Lista de objetos "Categoria" con la informacion de los juegos.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+	public List<Categoria> juegosInvBD() throws ClassNotFoundException, SQLException {
+		List<Categoria> listaJuegos = new ArrayList<Categoria>();
+		  
+		
+		//Iniciamos la conexion con la base de datos.
+		try (Connection connection = getConnection()) {
+
+            PreparedStatement stmt = connection.prepareStatement(
+            		"SELECT * FROM juegos_investigador_cambiados"
+            		);
+            ResultSet result = stmt.executeQuery();
+            
+            /**
+             * Obtenemos los resultados de la consulta y los guardamos en objetos
+             * "categoria". Estos objetos se introducen en una lista que se devuelve al servlet.
+             */
+            while (result.next()) {
+                int num = result.getInt("fkjuego");
+                String nombre = result.getString("nombre_juego");
+                Categoria categoria = new Categoria(num, nombre);
+                     
+                listaJuegos.add(categoria);
+            }          
+             
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
+		
+		return listaJuegos;
+	}
+    
+    /**
      * Devuelve una lista con los idiomas de la base de datos, en forma de objetos "Categoria".
      * @return Lista de objetos "Categoria" que contienen la informacion de los idiomas de la base de datos.
      * @throws SQLException
@@ -138,9 +213,9 @@ public class CategoriaDAO {
      */
     public List<Categoria> idiomasBD() throws SQLException, ClassNotFoundException {
         List<Categoria> listCategory = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             String sql = "SELECT * FROM idiomas";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -172,9 +247,9 @@ public class CategoriaDAO {
      */
     public List<Categoria> perfilesBD() throws SQLException, ClassNotFoundException {
         List<Categoria> listCategory = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             String sql = "SELECT * FROM perfiles WHERE activo = 1";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
@@ -199,6 +274,40 @@ public class CategoriaDAO {
     }
     
     /**
+     * Devuelve una lista con todos los menus de la tabla menus.
+     * @return Lista de objetos categoria con la informacion de los menus.
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public List<Categoria> menusBD() throws SQLException, ClassNotFoundException {
+        List<Categoria> listCategory = new ArrayList<>();
+          
+        //Iniciamos la conexion con la base de datos.
+        try (Connection connection = getConnection()) {
+            String sql = "SELECT * FROM menus";
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+            /**
+             * Obtenemos los resultados de la consulta y los guardamos en objetos
+             * "Categoria". Estos objetos se introducen en una lista que se devuelve al servlet.
+             */
+            while (result.next()) {
+                int id = result.getInt("pkmenu");
+                String nombre = result.getString("nombremenu");
+                Categoria category = new Categoria(id, nombre);
+                     
+                listCategory.add(category);
+            }          
+             
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw ex;
+        }      
+         
+        return listCategory;
+    }
+    
+    /**
      * Accede a la tabla de tipos de actividad y los devuelve en una lista.
      * @return Lista de objetos "Categoria" que contienen los tipos de actividad de la tabla.
      * @throws SQLException
@@ -206,9 +315,9 @@ public class CategoriaDAO {
      */
     public List<Categoria> tiposActividadBD() throws SQLException, ClassNotFoundException {
         List<Categoria> listCategory = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             String sql = "SELECT * FROM tipos_actividad";
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(sql);

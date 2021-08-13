@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +14,7 @@ import models.Pais;
  * Clase que contiene los metodos que acceden a la tabla
  * paises de la base de datos.
  */
-public class PaisDAO {
+public class PaisDAO extends BaseDAO{
 	
 	/**
 	 * Devuelve los contenidos de la tabla paises de la base de datos.
@@ -25,9 +24,9 @@ public class PaisDAO {
 	 */
 	public List<Pais> paisesBD() throws SQLException, ClassNotFoundException {
         List<Pais> listaPaises = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
       //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             
         	String sql = "SELECT * FROM paises";
             Statement statement = connection.createStatement();
@@ -61,9 +60,9 @@ public class PaisDAO {
 	 */
 	public void cambioNombre(String nombre_a, String nombre) throws SQLException, ClassNotFoundException {
 		
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE paises SET nombrepais=? WHERE nombrepais=?");
         stmt.setString(1, nombre);
         stmt.setString(2, nombre_a);
@@ -82,9 +81,9 @@ public class PaisDAO {
 	 */
 	public void cambioID(String id, String nombre) throws SQLException, ClassNotFoundException {
 		
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE paises SET pkpais=? WHERE nombrepais=?");
         stmt.setString(1, id);
         stmt.setString(2, nombre);
@@ -104,9 +103,9 @@ public class PaisDAO {
 	 */
 	public void borrarPais(String nombre) throws ClassNotFoundException, SQLException {
 		
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("DELETE FROM paises WHERE nombrepais=?");
         stmt.setString(1, nombre);
 		stmt.executeUpdate();
@@ -120,9 +119,9 @@ public class PaisDAO {
 	 * @throws SQLException
 	 */
 	public void crearPais() throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		
 		String sql = "INSERT INTO paises (pkpais, nombrepais) VALUES ('', '')";
         Statement stmt = con.createStatement();

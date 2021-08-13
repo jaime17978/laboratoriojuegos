@@ -10,11 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import dao.UserDAO;
 import models.User;
 
-import java.io.*;
 import java.sql.SQLException;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 /**
@@ -52,12 +50,12 @@ public class LoginServlet extends HttpServlet {
          */
         try {
             User user = userDao.userLogin(email, password);
-            String destPage = "login.jsp";
+            String destPage = "WEB-INF/login.jsp";
 
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                destPage = "home.jsp";
+                destPage = "WEB-INF/home.jsp";
             } else {
                 String message = "Usuario o contraseña incorrectos";
                 request.setAttribute("message", message);
@@ -77,7 +75,7 @@ public class LoginServlet extends HttpServlet {
      * @param response Objeto respuesta.
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    	RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/login.jsp");
         dispatcher.forward(req, resp);
     }
     

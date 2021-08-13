@@ -8,11 +8,8 @@ import javax.servlet.*;
 import dao.UserDAO;
 import models.User;
 
-import java.io.*;
 import java.sql.SQLException;
 
-
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 /**
@@ -36,7 +33,7 @@ public class ContraServlet extends HttpServlet {
      * @param response Objeto respuesta.
 	 */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	RequestDispatcher dispatcher = req.getRequestDispatcher("rest_contra.jsp");
+    	RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/rest_contra.jsp");
         dispatcher.forward(req, resp);
     }
     
@@ -63,12 +60,12 @@ public class ContraServlet extends HttpServlet {
 	
 	        try {
 	            User user = userDao.userChangePassword(email, password);
-	            String destPage = "rest_contra.jsp";
+	            String destPage = "WEB-INF/rest_contra.jsp";
 	
 	            if (user != null) {
 	            	String message = "Cambio de contraseña correcto";
 	                request.setAttribute("message", message);
-	                destPage = "login.jsp";
+	                destPage = "WEB-INF/login.jsp";
 	            } else {
 	                String message = "Email incorrecto";
 	                request.setAttribute("message", message);

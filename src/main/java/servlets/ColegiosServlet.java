@@ -13,11 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.ColegioDAO;
+import dao.PermisosDAO;
 import dao.RegionDAO;
-import dao.UniversidadDAO;
 import models.Colegio;
 import models.Region;
-import models.Universidad;
 import models.User;
 
 /**
@@ -36,22 +35,25 @@ public class ColegiosServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ColegioDAO daoColegio = new ColegioDAO();
 		RegionDAO daoRegion = new RegionDAO();
+		PermisosDAO daoPermisos = new PermisosDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
-        /**
-         * Dado que esta pagina solo es accesible por administradores o
-         * desarrolladores es necesario comprobar los permisos. En caso de 
-         * que un usuario no los tenga, se le redirige a la pagina de error.
-         */
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
         
         try {
+        	/**
+	         * Al ser una pagina a la que solo puede acceder un administrador
+	         * o desarrollador hay que comprobar los permisos del usuario.
+	         * Si el usuario no tiene permisos para entrar se le redirecciona
+	         * a la pagina de error. 
+	         */
+	        if (!daoPermisos.verificarPermisos(user.getPermissions(), 2)) {
+	        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
+	            
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+	            dispatcher.forward(request, response);
+	        }
+        	
             /**
              * Se obtienen los datos necesarios para la pagina
              * mediante los DAO.
@@ -62,7 +64,7 @@ public class ColegiosServlet extends HttpServlet {
             List<Region> listaRegiones = daoRegion.regionesBD();
             request.setAttribute("listaRegiones", listaRegiones);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("colegios.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/colegios.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {
@@ -161,7 +163,7 @@ public class ColegiosServlet extends HttpServlet {
             }
         	
 		} catch (ClassNotFoundException | SQLException e) {
-			System.out.print(e);
+			e.printStackTrace();
 			return;
 		}
         

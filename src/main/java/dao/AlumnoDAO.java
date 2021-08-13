@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +15,7 @@ import models.Alumno;
  * Clase que contiene los metodos que acceden a la tabla de 
  * alumnos de la base de datos.
  */
-public class AlumnoDAO {
+public class AlumnoDAO extends BaseDAO {
 	
 	/**
 	 * Crea un alumno en la tabla de alumnos con los valores que 
@@ -38,9 +37,9 @@ public class AlumnoDAO {
 		int id = 0;
 		
 		//Iniciamos la conexion con la base de datos
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		//Preparamos la consulta y le pasamos los valores de los parametros
 		PreparedStatement stmt = con.prepareStatement("INSERT INTO alumnos (nombrealumno, genero, fkusuario, edad, fkidioma, fechaalta, CODIGO_antiguo) VALUES (?, ?, ?, ?, ?, ?, 0)", Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, nombre);
@@ -71,9 +70,9 @@ public class AlumnoDAO {
 	 */
 	public List<Alumno> alumnosUsuarioBD(int usuarioKey) throws SQLException, ClassNotFoundException {
         List<Alumno> listAlumno = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             
         	//Preparamos la consulta e introducimos el valor de la clave primaria del usuario en ella.
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM alumnos WHERE fkusuario = ? AND fechabaja IS NULL ORDER BY pkalumno DESC");
@@ -114,9 +113,9 @@ public class AlumnoDAO {
 	 */
 	public List<Alumno> alumnosUsuarioCursoBD(int usuarioKey, int curso_c) throws SQLException, ClassNotFoundException {
         List<Alumno> listAlumno = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             
         	//Preparamos la consulta e introducimos los valores de los parametros de la funcion en esta.
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM alumnos WHERE fkusuario = ? AND fkcurso = ? AND fechabaja IS NULL ORDER BY pkalumno DESC");
@@ -161,9 +160,9 @@ public class AlumnoDAO {
 
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 		//Iniciamos la conexion con la base de datos
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		
 		PreparedStatement stmt = con.prepareStatement("UPDATE alumnos SET nombrealumno=?, fkusuario=?, fechamodificacion=? WHERE pkalumno=?");
         stmt.setString(1, nombre);
@@ -187,9 +186,9 @@ public class AlumnoDAO {
 
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 		//Iniciamos la conexion con la base de datos
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		//Creamos la consulta y le pasamos los valores de los parametros de la funcion.
 		PreparedStatement stmt = con.prepareStatement("UPDATE alumnos SET genero=?, fkusuario=?, fechamodificacion=? WHERE pkalumno=?");
         stmt.setString(1, genero);
@@ -213,9 +212,9 @@ public class AlumnoDAO {
 
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 		//Iniciamos la conexion con la base de datos
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		//Creamos la consulta y le pasamos los valores de los parametros.
 		PreparedStatement stmt = con.prepareStatement("UPDATE alumnos SET edad=?, fkusuario=?, fechamodificacion=? WHERE pkalumno=?");
 		
@@ -223,7 +222,7 @@ public class AlumnoDAO {
         stmt.setInt(2, usuarioKey);
         stmt.setTimestamp(3, date);
         stmt.setInt(4, id);
-        System.out.println(stmt);
+        
         stmt.executeUpdate();
 
         con.close();
@@ -241,9 +240,9 @@ public class AlumnoDAO {
 
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 		//Iniciamos la conexion con la base de datos
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		//Creamos la consulta y le pasamos los valores de los parametros.
 		PreparedStatement stmt = con.prepareStatement("UPDATE alumnos SET fkidioma=?, fkusuario=?, fechamodificacion=? WHERE pkalumno=?");
         stmt.setInt(1, idioma);
@@ -267,9 +266,9 @@ public class AlumnoDAO {
 
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 		//Iniciamos la conexion con la base de datos
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		//Creamos la consulta y le pasamos los valores de los parametros.
 		PreparedStatement stmt = con.prepareStatement("UPDATE alumnos SET fkcurso=?, fkusuario=?, fechamodificacion=? WHERE pkalumno=?");
         stmt.setInt(1, curso);
@@ -292,9 +291,9 @@ public class AlumnoDAO {
 
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 		//Iniciamos la conexion con la base de datos
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		//Creamos la consulta y le pasamos los valores de los parametros.
 		PreparedStatement stmt = con.prepareStatement("UPDATE alumnos SET fkusuario=?, fechabaja=? WHERE pkalumno=?");
         stmt.setInt(1, usuarioKey);

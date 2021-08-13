@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +14,7 @@ import models.Categoria;
  * Clase que contiene los metodos que acceden a la tabla Anhos
  * de la base de datos.
  */
-public class AnhoDAO {
+public class AnhoDAO extends BaseDAO{
 
 	/**
 	 * Devuelve una lista con los años (Anho) de la base de datos.
@@ -25,9 +24,9 @@ public class AnhoDAO {
 	 */
 	public List<Categoria> anhosBD() throws SQLException, ClassNotFoundException {
         List<Categoria> listaAnhos = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             //Creamos la consulta
         	String sql = "SELECT * FROM anhos WHERE fechabaja is NULL";
             Statement statement = connection.createStatement();
@@ -64,10 +63,10 @@ public class AnhoDAO {
 	public void cambioNombre(int id, String nombre) throws SQLException, ClassNotFoundException {
 		
 		//Iniciamos la conexion con la base de datos.
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		//Creamos y ejecutamos la consulta.
 		PreparedStatement stmt = con.prepareStatement("UPDATE anhos SET nombreanho=?, fechamodificacion=? WHERE pkanho=?");
         stmt.setString(1, nombre);
@@ -88,10 +87,10 @@ public class AnhoDAO {
 	public void borrarAnho(int id) throws ClassNotFoundException, SQLException {
         
 		//Iniciamos la conexion con la base de datos
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		/**
 		 * Creamos y ejecutamos la consulta.
 		 */
@@ -112,10 +111,10 @@ public class AnhoDAO {
 	 * @throws SQLException
 	 */
 	public int crearAnho(int id) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
 		Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		int id_n = -1;  
         PreparedStatement stmt = con.prepareStatement("INSERT INTO anhos (nombreanho, fkusuario, fkidioma, fechaalta) VALUES ('', ?, 1, ?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setInt(1, id);

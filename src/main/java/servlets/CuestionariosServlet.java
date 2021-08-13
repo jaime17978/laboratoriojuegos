@@ -2,10 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,16 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
-
-import dao.AlumnoDAO;
-import dao.CategoriaDAO;
 import dao.CuestionarioDAO;
-import dao.JuegoDAO;
-import models.Alumno;
-import models.Categoria;
-import models.Cuestionario;
-import models.Juego;
 import models.User;
 
 /**
@@ -46,7 +33,7 @@ public class CuestionariosServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /**
-         * Mediande el DAO de cuestionarios se accede a la base de datos
+         * Mediante el DAO de cuestionarios se accede a la base de datos
          * para crear/modificar el cuestionario que corresponde.
          */
 		try {
@@ -62,7 +49,7 @@ public class CuestionariosServlet extends HttpServlet {
             
     		dao.creaModificaCuest(user.getId(), idAlumno, idJuego, favorito, barrio, colegio, user.getLanguage());
     		
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("cuestionarios.jsp");
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/cuestionarios.jsp");
             dispatcher.forward(request, response);
             
         } catch (SQLException | ClassNotFoundException e) {

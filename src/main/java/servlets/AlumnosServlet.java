@@ -43,8 +43,34 @@ public class AlumnosServlet extends HttpServlet {
 		AlumnoDAO daoAlumnos = new AlumnoDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        int sim;
         
         try {
+        	
+        	//Si es un profesor se comprueba si esta simulando a un usuario.
+        	//Si lo esta simulando se muestran sus alumnos, si no, se le envia a la pagina de error.
+        	if (user.getPermissions() == 2) {
+        		sim = user.getSimulado();
+        		if (sim != -1) {
+        			
+        			List<Categoria> listaCursos = dao.cursosBD();
+                    request.setAttribute("listaCursos", listaCursos);
+                    
+                    List<Alumno> listaAlumnos = daoAlumnos.alumnosUsuarioBD(sim);
+                    request.setAttribute("listaAlumnos", listaAlumnos);
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/alumnos_profesor.jsp");
+                    dispatcher.forward(request, response);
+                    return;
+        		}
+        		else {
+        			request.setAttribute("msg", "No estas simulando a ningun usuario. Para hacerlo, debes acceder a la pestaña 'usuarios'.");
+    	            
+    	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+    	            dispatcher.forward(request, response);
+    	            return;
+        		}
+            }
             
         	/*
         	 * Mediante los DAO de categoria y alumnos accedemos a la base de datos,
@@ -58,7 +84,7 @@ public class AlumnosServlet extends HttpServlet {
             List<Alumno> listaAlumnos = daoAlumnos.alumnosUsuarioBD(user.getId());
             request.setAttribute("listaAlumnos", listaAlumnos);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("alumnos.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/alumnos.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.AnhoDAO;
+import dao.PermisosDAO;
 import models.Categoria;
 import models.User;
 
@@ -31,23 +32,27 @@ public class AnhosServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AnhoDAO dao = new AnhoDAO();
+		PermisosDAO daoPermisos = new PermisosDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
-        /**
-         * Dado que la pantalla de años es solo para administradores o
-         * desarrolladores es necesario comprobar los permisos del usuario.
-         * Si no tiene los permisos necesarios se le redireccionara a la pagina
-         * de error.
-         */
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
-        
 		try {
+			
+			/**
+	         * Al ser una pagina a la que solo puede acceder un administrador
+	         * o desarrollador hay que comprobar los permisos del usuario.
+	         * Si el usuario no tiene permisos para entrar se le redirecciona
+	         * a la pagina de error. 
+	         */
+	        if (!daoPermisos.verificarPermisos(user.getPermissions(), 3)) {
+	        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
+	            
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+	            dispatcher.forward(request, response);
+	            return;
+	        }
+	        
+			
             /**
              * Se accede a la base de datos mediante el DAO
              * y este devuelve una lista de los años que se le pasa
@@ -56,7 +61,7 @@ public class AnhosServlet extends HttpServlet {
             List<Categoria> listaAnhos = dao.anhosBD();
             request.setAttribute("listaAnhos", listaAnhos);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("anhos.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/anhos.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {

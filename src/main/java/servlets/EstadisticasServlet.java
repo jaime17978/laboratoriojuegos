@@ -42,10 +42,16 @@ public class EstadisticasServlet extends HttpServlet {
              * Obtiene los cursos para los que el usuario ha creado cuestionarios
              * y redirecciona a la pagina est_menu.
              */
-            List<Categoria> listaCursos = dao.cursosEstadisticasBD(user.getId());
-            request.setAttribute("listaCursos", listaCursos);
+            if(user.getPermissions() != 4) {
+            	List<Categoria> listaCursos = dao.cursosEstadisticasBD(user.getId());
+                request.setAttribute("listaCursos", listaCursos);
+        	}
+        	else {
+        		List<Categoria> listaCursos = dao.cursosEstadisticasInvBD();
+                request.setAttribute("listaCursos", listaCursos);
+        	}
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("est_menu.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/est_menu.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {
@@ -85,6 +91,47 @@ public class EstadisticasServlet extends HttpServlet {
     		}
         	request.setAttribute("titulo", titulo);
         	
+        	//Borrado de las estadisticas anteriores
+        	dao.borrarEstadisticas(user_id);
+        	//Genera las estadisticas para el curso especificado (o para todos los cursos si curso == -1)
+        	if(user.getPermissions() != 4) {
+        		dao.calculoEstadisticas(user_id, curso);
+        	}
+        	else {
+        		dao.calculoEstadisticasInv(user_id, curso, user.getLanguage());
+        	}
+        	//Obtenemos las estadisticas de la tabla "estadisticas" de la base de datos.
+
+        	//Numero de niños y niñas
+        	List<ContadorEst> numAlumnosGenero = dao.numAlumnosGeneroBD(user_id);
+        	request.setAttribute("numAlumnosGenero", numAlumnosGenero);
+        	
+        	//Numero de juegos por alumno
+        	List<ContadorEst> juegosPorAlumno = dao.juegosPorAlumnoBD(user_id);
+        	request.setAttribute("juegosPorAlumno", juegosPorAlumno);
+        	
+        	//Numero de juegos mencionados por niñas
+        	List<ContadorEst> juegosPorNinhas = dao.juegosPorNinhasBD(user_id);
+        	request.setAttribute("juegosPorNinhas", juegosPorNinhas);
+        	
+        	//Numero de juegos mencionados por niños
+        	List<ContadorEst> juegosPorNinhos = dao.juegosPorNinhosBD(user_id);
+        	request.setAttribute("juegosPorNinhos", juegosPorNinhos);
+        	
+        	//Numero de juegos mencionados en colegio o favorito
+        	List<ContadorEst> juegosColFav = dao.juegosColFavBD(user_id);
+        	request.setAttribute("juegosColFav", juegosColFav);
+        	
+        	//Numero de juegos mencionados en barrio o favorito
+        	List<ContadorEst> juegosBarFav = dao.juegosBarFavBD(user_id);
+        	request.setAttribute("juegosBarFav", juegosBarFav);
+        	
+        	//Numero de juegos mencionados como favorito
+        	List<ContadorEst> juegosFav = dao.juegosFavBD(user_id);
+        	request.setAttribute("juegosFav", juegosFav);
+        	
+        	/*------------------------------------------------------------------------*/
+        	/* Estadisticas antiguas
             //Frecuencia total de juegos
         	List<ContadorEst> frecuenciaJuegos = dao.frecJuegosCursoBD(user_id, curso);
         	request.setAttribute("frecTotalJuegos", frecuenciaJuegos);
@@ -133,10 +180,10 @@ public class EstadisticasServlet extends HttpServlet {
         	
         	//Favoritos, colegio y barrio
         	List<ContadorEst> frecuenciaFavColBar = dao.frecFavColBarCursoBD(user_id, curso);
-        	request.setAttribute("frecFavColBar", frecuenciaFavColBar);
+        	request.setAttribute("frecFavColBar", frecuenciaFavColBar);*/
         	
         	
-            RequestDispatcher dispatcher = request.getRequestDispatcher("estadisticas.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/estadisticas.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {

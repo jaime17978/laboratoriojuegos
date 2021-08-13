@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.PaisDAO;
+import dao.PermisosDAO;
 import models.Pais;
 import models.User;
 
@@ -34,23 +35,25 @@ public class PaisesServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PaisDAO dao = new PaisDAO();
+		PermisosDAO daoPermisos = new PermisosDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
-        /**
-         * Al ser una pagina a la que solo puede acceder un administrador
-         * o desarrollador hay que comprobar los permisos del usuario.
-         * Si el usuario no tiene permisos para entrar se le redirecciona
-         * a la pagina de error. 
-         */
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
-        
 		try {
+			/**
+	         * Al ser una pagina a la que solo puede acceder un administrador
+	         * o desarrollador hay que comprobar los permisos del usuario.
+	         * Si el usuario no tiene permisos para entrar se le redirecciona
+	         * a la pagina de error. 
+	         */
+	        if (!daoPermisos.verificarPermisos(user.getPermissions(), 1)) {
+	        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
+	            
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+	            dispatcher.forward(request, response);
+	            return;
+	        }
+			
             /**
              * Se accede a la base de datos mediante el DAO
              * para obtener la informacion que necesita la pagina.
@@ -58,7 +61,7 @@ public class PaisesServlet extends HttpServlet {
             List<Pais> listaPaises = dao.paisesBD();
             request.setAttribute("listaPaises", listaPaises);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("paises.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/paises.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {

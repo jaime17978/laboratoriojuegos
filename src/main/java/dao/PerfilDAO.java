@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +14,7 @@ import models.Perfil;
  * Clase que contiene los metodos que acceden a la tabla
  * perfiles de la base de datos.
  */
-public class PerfilDAO {
+public class PerfilDAO extends BaseDAO{
 
 	/**
 	 * Devuelve los contenidos de la tabla perfiles de la base de datos.
@@ -25,9 +24,9 @@ public class PerfilDAO {
 	 */
 	public List<Perfil> perfilesBD() throws SQLException, ClassNotFoundException {
         List<Perfil> listaPerfiles = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             
         	String sql = "SELECT * FROM perfiles";
             Statement statement = connection.createStatement();
@@ -61,9 +60,9 @@ public class PerfilDAO {
 	 * @throws SQLException
 	 */
 	public void cambioNombre(int id, String nombre) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE perfiles SET nombreperfil=? WHERE pkperfil=?");
         stmt.setString(1, nombre);
         stmt.setInt(2, id);
@@ -81,9 +80,9 @@ public class PerfilDAO {
 	 * @throws SQLException
 	 */
 	public void cambioActivo(int id, boolean activo) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE perfiles SET activo=? WHERE pkperfil=?");
         stmt.setBoolean(1, activo);
         stmt.setInt(2, id);
@@ -101,9 +100,9 @@ public class PerfilDAO {
 	 * @throws ClassNotFoundException
 	 */
 	public void borrarPerfil(int id) throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("DELETE FROM perfiles WHERE pkperfil=?");
         stmt.setInt(1, id);
 		stmt.executeUpdate();
@@ -116,9 +115,9 @@ public class PerfilDAO {
 	 * @throws ClassNotFoundException
 	 */
 	public int crearPerfil() throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		
 		int id = -1;
 		

@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +14,7 @@ import models.Region;
  * Clase con los metodos que acceden a la
  * tabla "Regiones" de la base de datos.
  */
-public class RegionDAO {
+public class RegionDAO extends BaseDAO{
 	
 	/**
 	 * Devuelve los contenidos de la tabla regiones en una lista de objetos "Region".
@@ -25,9 +24,9 @@ public class RegionDAO {
 	 */
 	public List<Region> regionesBD() throws SQLException, ClassNotFoundException {
         List<Region> listaRegiones = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             
         	String sql = "SELECT * FROM regiones";
             Statement statement = connection.createStatement();
@@ -62,9 +61,9 @@ public class RegionDAO {
 	 * @throws ClassNotFoundException
 	 */
 	public void cambioID(String id_a, String id) throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE regiones SET pkregion=? WHERE pkregion=?");
         stmt.setString(1, id);
         stmt.setString(2, id_a);
@@ -82,9 +81,9 @@ public class RegionDAO {
 	 * @throws SQLException
 	 */
 	public void cambioNombre(String id, String nombre) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE regiones SET nombreregion=? WHERE pkregion=?");
         stmt.setString(1, nombre);
         stmt.setString(2, id);
@@ -100,9 +99,9 @@ public class RegionDAO {
 	 * @throws ClassNotFoundException
 	 */
 	public void crearRegion() throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		
 		String sql = "INSERT INTO regiones (pkregion, nombreregion, fkpais) VALUES ('', '', '??')";
         Statement stmt = con.createStatement();
@@ -118,9 +117,9 @@ public class RegionDAO {
 	 * @throws ClassNotFoundException
 	 */
 	public void borrarRegion(String id) throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("DELETE FROM regiones WHERE pkregion=?");
         stmt.setString(1, id);
 		stmt.executeUpdate();
@@ -135,9 +134,9 @@ public class RegionDAO {
 	 * @throws SQLException
 	 */
 	public void cambioPais(String id, String pais) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
+		
         Connection con;
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "");
+		con = getConnection();
 		PreparedStatement stmt = con.prepareStatement("UPDATE regiones SET fkpais=? WHERE pkregion=?");
         stmt.setString(1, pais);
         stmt.setString(2, id);
@@ -155,9 +154,9 @@ public class RegionDAO {
 	 */
 	public List<Region> regionesBD(String p) throws ClassNotFoundException, SQLException {
 		List<Region> listaRegiones = new ArrayList<>();
-        Class.forName("com.mysql.cj.jdbc.Driver");  
+          
         //Iniciamos la conexion con la base de datos.
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/admin_juegos?serverTimezone=ECT", "root", "")) {
+        try (Connection connection = getConnection()) {
             /**
              * Creamos la consulta y le pasamos el nombre del pais pasado en el parametro "p".
              */

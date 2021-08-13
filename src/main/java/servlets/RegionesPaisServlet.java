@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.PaisDAO;
+import dao.PermisosDAO;
 import dao.RegionDAO;
 import models.Pais;
 import models.Region;
@@ -40,23 +41,26 @@ public class RegionesPaisServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PaisDAO daoPais = new PaisDAO();
+		PermisosDAO daoPermisos = new PermisosDAO();
 		HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         
-        /**
-         * A esta pantalla solo tiene acceso el administrador.
-         * Para asegurar esto es necesario comprobar los permisos de los usuarios.
-         * Si no tienen permiso para acceder a esta pagina se les redireccionara
-         * a la pagina de error.
-         */
-        if (user.getPermissions() != 1) {
-        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
-            dispatcher.forward(request, response);
-        }
-        
 		try {
+			
+			/**
+	         * Al ser una pagina a la que solo puede acceder un administrador
+	         * o desarrollador hay que comprobar los permisos del usuario.
+	         * Si el usuario no tiene permisos para entrar se le redirecciona
+	         * a la pagina de error. 
+	         */
+	        if (!daoPermisos.verificarPermisos(user.getPermissions(), 2)) {
+	        	request.setAttribute("msg", "No tienes permiso para acceder a esta parte de la aplicacion.");
+	            
+	            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/error.jsp");
+	            dispatcher.forward(request, response);
+	            return;
+	        }
+	        
             /**
              * Se obtiene la lista de paises mediante un DAO
              * para mostrar en el formulario.
@@ -64,7 +68,7 @@ public class RegionesPaisServlet extends HttpServlet {
             List<Pais> listaPaises = daoPais.paisesBD();
             request.setAttribute("listaPaises", listaPaises);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("regiones_pais.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/regiones_pais.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {
@@ -96,7 +100,7 @@ public class RegionesPaisServlet extends HttpServlet {
             List<Pais> listaPaises = daoPais.paisesBD();
             request.setAttribute("listaPaises", listaPaises);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("regiones.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/regiones.jsp");
             dispatcher.forward(request, response);
  
         } catch (SQLException | ClassNotFoundException e) {

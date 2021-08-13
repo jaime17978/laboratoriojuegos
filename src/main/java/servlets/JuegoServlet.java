@@ -9,7 +9,6 @@ import javax.servlet.http.*;
 
 import dao.JuegoDAO;
 import models.Juego;
-import models.User;
 
 /**
  * Clase servlet utilizada en la pantalla de cuestionarios.

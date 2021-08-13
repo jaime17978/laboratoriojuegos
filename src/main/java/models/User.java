@@ -14,7 +14,8 @@ public class User {
     private int perfil;
     private int universidad;
     private boolean activo;
-    
+    //Parte del usuario que se usa para la simulacion de un alumno desde el perfil profesor
+    private int simulado = -1;
     
     /**
      * Metodo get para la ID.
@@ -143,4 +144,20 @@ public class User {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
+	
+	/**
+     * Metodo get para la ID del usuario a simular.
+     * @return ID del usuario.
+     */
+    public int getSimulado(){
+        return simulado;
+    }
+    
+    /**
+     * Metodo set para la ID del usuario a simular.
+     * @param s ID nueva del usuario simulado.
+     */
+    public void setSimulado(int s){
+        simulado = s;
+    }
 }
